@@ -1,0 +1,70 @@
+<mat-card>
+    <mat-card-content>
+        <mat-card >
+            <mat-card-title class="titulo"> REGISTRO DEPENDENCIAS</mat-card-title> 
+            <mat-divider class="divider"></mat-divider>
+            <mat-card-content>  
+                <mat-card>
+                    <mat-card-content>  
+                        <form>
+                            <div class="grid">
+                                <div class="left-column">
+                                    <p class="nombre-input">NOMBRE DEPENCIA 
+                                        <button class="boton-ayuda">?   
+                                            <span class="tooltip-text">
+                                                <p>El nombre de la dependencia debe ir en mayusculas.</p>
+                                                <p>Sin tildes.</p>
+                                                <p>Debe ser global el nombre.</p>
+                                                <br>
+                                                <p>Ejemplo:</p>
+                                                <p>MODULO DE INVESTIGACION <span class="check">✔</span></p>
+                                                <p>MODULO DE INVESTIGACIÓN 1 AREA SOCIAL ❌</p>
+                                            </span>
+                                        </button> 
+                                    </p>
+                                    <input type="text">
+                                    <p class="nombre-input">TELEFONO ASOCIADO <button class="boton-ayuda">?   
+                                        <span class="tooltip-text">
+                                        <p>Incluir el número oficial de la dependencia.</p>
+                                        <p>Agregar las extensiones o decorativos necesarios.</p>
+                                        <br>
+                                        <p>Ejemplo:</p>
+                                        <p>123456789 ext 24 apr 21 <span class="check">✔</span></p>
+                                        <p>123456789 - 1 -2 ❌</p>
+                                        </span></button></p>
+                                        <input type="text">
+                                
+                                    <p class="nombre-input">CORREO INSTITUCIONAL <button class="boton-ayuda">?   
+                                        <span class="tooltip-text">
+                                        <p>No incluir correos personales.</p>
+                                        <br>
+                                        <p>Ejemplo:</p>
+                                        <p>moduloinvestigacion@udistrital.edu.co <span class="check">✔</span></p>
+                                        <p>correopersonal@gmail.com ❌</p>
+                                    </span></button></p>
+                                    <input type="text">
+                                </div>
+                                <div class="right-column">
+                                    <p class="nombre-input">TIPO DEPENDENCIA</p>
+                                    <select >
+                                        <option *ngFor="let item of tiposDependencia()" [value]="item">
+                                            {{item}}
+                                        </option>
+                                    </select>
+
+                                    <p class="nombre-input">DEPENDENCIA ASOCIADA</p>
+                                    <select >
+                                        <option *ngFor="let item of dependenciasAsociadas()" [value]="item">
+                                            {{item}}
+                                        </option>
+                                    </select>
+                                    <button class="boton-accion">REGISTRAR DEPENDENCIA</button>
+                                </div>
+                            </div>
+                        </form> 
+                    </mat-card-content>
+                </mat-card> 
+            </mat-card-content>
+        </mat-card>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,17 @@
+.divider{
+    background-color: #8C1A18;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 5px;
+}
+
+.titulo{
+    color: #8C1A18;
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;   
+    font-family: Helvetica;
+}
