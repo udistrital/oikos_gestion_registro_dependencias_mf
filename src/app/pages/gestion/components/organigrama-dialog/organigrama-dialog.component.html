@@ -1,0 +1,56 @@
+<mat-card>
+    <div class="contenido-editar">
+        <button class="boton-salir" (click)="onCloseClick()">x</button>
+    </div>
+    <mat-divider class="divider"></mat-divider>
+    <mat-card-content>
+        <mat-card>
+            <mat-card-title class="titulo-organigrama"> ORGANIGRAMA GENERAL</mat-card-title> 
+            <mat-card-content>
+                <div class="card flex organigrama">
+                    <p-organizationChart [value]="data" >
+                        <ng-template let-node pTemplate="person">
+                            <div class="contenedor-nodo">
+                                <div class="circulo-nodo" [style]="node.data.color_primario"><div class="circulo-interno-nodo" [style]="node.data.color_secundario"></div></div>
+                                <div [ngClass]="node.styleClass"  [style]="node.data.borde">{{ node.data.nombre }}</div>
+                            </div>
+                        </ng-template>
+                    </p-organizationChart>
+                </div>
+            </mat-card-content>    
+        </mat-card>
+        <br>
+        <mat-card>
+            <mat-card-title class="titulo-organigrama"> ORGANIGRAMA ACADEMICO</mat-card-title> 
+            <mat-card-content>
+                <div class="card flex organigrama">
+                    <p-organizationChart [value]="data" >
+                        <ng-template let-node pTemplate="person">
+                            <div class="contenedor-nodo">
+                                <div class="circulo-nodo" [style]="node.data.color_primario"><div class="circulo-interno-nodo" [style]="node.data.color_secundario"></div></div>
+                                <div [ngClass]="node.styleClass"  [style]="node.data.borde">{{ node.data.nombre }}</div>
+                            </div>
+                        </ng-template>
+                    </p-organizationChart>
+                </div>
+            </mat-card-content>    
+        </mat-card>
+        <br>
+        <mat-card>
+            <mat-card-title class="titulo-organigrama"> ORGANIGRAMA ADMINISTRATIVO</mat-card-title> 
+            <mat-card-content>
+                <div class="card flex organigrama">
+                    <p-organizationChart [value]="data" >
+                        <ng-template let-node pTemplate="person">
+                            <div class="contenedor-nodo">
+                                <div class="circulo-nodo" [style]="node.data.color_primario"><div class="circulo-interno-nodo" [style]="node.data.color_secundario"></div></div>
+                                <div [ngClass]="node.styleClass"  [style]="node.data.borde">{{ node.data.nombre }}</div>
+                            </div>
+                        </ng-template>
+                    </p-organizationChart>
+                </div>
+            </mat-card-content>    
+        </mat-card>
+    </mat-card-content>
+</mat-card>
+

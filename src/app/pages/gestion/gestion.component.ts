@@ -5,6 +5,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { EditarDependenciaDialogComponent } from './components/editar-dependencia-dialog/editar-dependencia-dialog.component'
+import { OrganigramaDialogComponent } from './components/organigrama-dialog/organigrama-dialog.component'
+
 
 @Component({
   selector: 'app-gestion',
@@ -83,11 +85,18 @@ export class GestionComponent implements AfterViewInit{
   }
 
   abrirDialogEditarDependencia(){
-    console.log("lo intenta")
     const dialogRef = this.dialog.open(EditarDependenciaDialogComponent, {
       width: '70%',
       height: 'auto',
       maxHeight: '65vh',
+    });
+  }
+
+  abrirDialogOrganigrama(){
+    console.log("lo intenta")
+    const dialogRef = this.dialog.open(OrganigramaDialogComponent, {
+      width: '80%',
+      height: '90%',
     });
   }
 

@@ -13,13 +13,15 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { EditarDependenciaDialogComponent } from './gestion/components/editar-dependencia-dialog/editar-dependencia-dialog.component';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
-
+import { OrganigramaDialogComponent } from './gestion/components/organigrama-dialog/organigrama-dialog.component';
+import { OrganizationChartModule } from 'primeng/organizationchart';
 
 @NgModule({
   declarations: [
     RegistroComponent,
     GestionComponent,
     EditarDependenciaDialogComponent,
+    OrganigramaDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -33,6 +35,7 @@ import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/
     MatIconModule,
     MatButtonModule,
     MatDialogModule,
+    OrganizationChartModule
   ],
   providers:[
     { provide: MAT_DIALOG_DATA, useValue: {} },

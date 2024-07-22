@@ -1,0 +1,95 @@
+.divider {
+    background-color: #8C1A18;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    margin-top: 15px;
+}
+
+.boton-salir {
+    background-color: white;
+    color: #8C1A18; 
+    border: 1px solid #8C1A18; 
+    border-radius: 5px; 
+    width: 25px;     
+    height: 25px;    
+    padding: 0;      
+    display: flex;    
+    justify-content: center; 
+    align-items: center;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: 36px; 
+    margin-top: 10px;
+}
+
+.titulo-organigrama{
+    background-color: #F8CECC;
+    color: #8C1A18;
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;   
+    font-family: Helvetica;
+    font-size: 28px;
+}
+
+.organigrama{
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    overflow: auto;
+    display: flex;
+}
+
+
+.contenedor-nodo{
+    display: flex;
+    padding: 5px;
+}
+
+.circulo-nodo{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.circulo-interno-nodo{
+    width: 75%;
+    height: 75%;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.nodo{
+    font-weight: bold;
+    font-family: Helvetica;
+    border-radius: 10px;
+    margin-left: -30px; 
+    background-color: #fff;
+    position: relative;
+    width: 150px;
+    height: 80px;
+    padding-left: 30px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    overflow: hidden;
+    font-size: 12px;
+}
+
+mat-card-content{
+    overflow: auto;
+}
