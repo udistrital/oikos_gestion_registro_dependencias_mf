@@ -6,7 +6,7 @@
             <mat-card-content>  
                 <mat-card>
                     <mat-card-content>  
-                        <form>
+                        <form [formGroup]="registroForm">
                             <div class="grid">
                                 <div class="left-column">
                                     <p class="nombre-input">NOMBRE DEPENCIA 
@@ -22,7 +22,7 @@
                                             </span>
                                         </button> 
                                     </p>
-                                    <input type="text">
+                                    <input type="text" formControlName="nombre">
                                     <p class="nombre-input">TELEFONO ASOCIADO <button class="boton-ayuda">?   
                                         <span class="tooltip-text">
                                         <p>Incluir el número oficial de la dependencia.</p>
@@ -32,7 +32,7 @@
                                         <p>123456789 ext 24 apr 21 <span class="check">✔</span></p>
                                         <p>123456789 - 1 -2 ❌</p>
                                         </span></button></p>
-                                        <input type="text">
+                                        <input type="text" formControlName="telefono">
                                 
                                     <p class="nombre-input">CORREO INSTITUCIONAL <button class="boton-ayuda">?   
                                         <span class="tooltip-text">
@@ -42,23 +42,25 @@
                                         <p>moduloinvestigacion@udistrital.edu.co <span class="check">✔</span></p>
                                         <p>correopersonal@gmail.com ❌</p>
                                     </span></button></p>
-                                    <input type="text">
+                                    <input type="text" formControlName="correo">
                                 </div>
                                 <div class="right-column">
                                     <p class="nombre-input">TIPO DEPENDENCIA</p>
-                                    <select >
-                                        <option *ngFor="let item of tiposDependencia()" [value]="item">
-                                            {{item}}
+                                    <select formControlName="tipoDependencia" >
+                                        <option> ... </option>
+                                        <option *ngFor="let item of tiposDependencia" [ngValue]="item">
+                                            {{item.nombre}}
                                         </option>
                                     </select>
 
                                     <p class="nombre-input">DEPENDENCIA ASOCIADA</p>
-                                    <select >
-                                        <option *ngFor="let item of dependenciasAsociadas()" [value]="item">
-                                            {{item}}
+                                    <select  formControlName="dependenciaAsociada">
+                                        <option> ... </option>
+                                        <option *ngFor="let item of dependenciasAsociadas" [ngValue]="item">
+                                            {{item.nombre}}
                                         </option>
                                     </select>
-                                    <button class="boton-accion">REGISTRAR DEPENDENCIA</button>
+                                    <button class="boton-accion" (click)="enviarDependencia()">REGISTRAR DEPENDENCIA</button>
                                 </div>
                             </div>
                         </form> 
