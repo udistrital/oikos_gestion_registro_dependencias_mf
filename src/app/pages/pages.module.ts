@@ -15,6 +15,7 @@ import { EditarDependenciaDialogComponent } from './gestion/components/editar-de
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import { OrganigramaDialogComponent } from './gestion/components/organigrama-dialog/organigrama-dialog.component';
 import { OrganizationChartModule } from 'primeng/organizationchart';
+import { ReactiveFormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { OrganizationChartModule } from 'primeng/organizationchart';
     MatIconModule,
     MatButtonModule,
     MatDialogModule,
-    OrganizationChartModule
+    OrganizationChartModule,
+    ReactiveFormsModule
   ],
   providers:[
     { provide: MAT_DIALOG_DATA, useValue: {} },

@@ -26,8 +26,9 @@
                                     <input type="text">
                                     <p class="nombre-input">TIPO DEPENCIA </p>
                                     <select >
-                                        <option *ngFor="let item of tiposDependencia()" [value]="item">
-                                            {{item}}
+                                        <option>...</option>
+                                        <option *ngFor="let item of tiposDependencia" [value]="item">
+                                            {{item.nombre}}
                                         </option>
                                     </select>
                                     <button class="boton-accion">BUSCAR</button>
@@ -39,7 +40,12 @@
                                             <p>• Sin tildes.</p>
                                         </span>
                                     </button> </p>
-                                    <input type="text">
+                                    <select >
+                                        <option>...</option>
+                                        <option *ngFor="let item of facultades" [value]="item">
+                                            {{item.nombre}}
+                                        </option>
+                                    </select>
                                     
                                     <p class="nombre-input">VICERECTORIA <button class="boton-ayuda">?   
                                         <span class="tooltip-text">
@@ -47,7 +53,12 @@
                                             <p>• Sin tildes.</p>
                                         </span>
                                     </button> </p>
-                                    <input type="text">
+                                    <select >
+                                        <option>...</option>
+                                        <option *ngFor="let item of vicerrectorias" [value]="item">
+                                            {{item.nombre}}
+                                        </option>
+                                    </select>
                                     <p class="nombre-input">ESTADO </p>
                                     <select >
                                         <option>ACTIVO</option>

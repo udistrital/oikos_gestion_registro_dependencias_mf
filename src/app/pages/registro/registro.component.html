@@ -47,14 +47,16 @@
                                 <div class="right-column">
                                     <p class="nombre-input">TIPO DEPENDENCIA</p>
                                     <select >
-                                        <option *ngFor="let item of tiposDependencia()" [value]="item">
+                                        <option> ... </option>
+                                        <option *ngFor="let item of tiposDependencia" [value]="item">
                                             {{item}}
                                         </option>
                                     </select>
 
                                     <p class="nombre-input">DEPENDENCIA ASOCIADA</p>
                                     <select >
-                                        <option *ngFor="let item of dependenciasAsociadas()" [value]="item">
+                                        <option> ... </option>
+                                        <option *ngFor="let item of dependenciasAsociadas" [value]="item">
                                             {{item}}
                                         </option>
                                     </select>

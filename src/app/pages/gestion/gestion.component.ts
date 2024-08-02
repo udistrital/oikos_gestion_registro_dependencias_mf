@@ -6,7 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { EditarDependenciaDialogComponent } from './components/editar-dependencia-dialog/editar-dependencia-dialog.component'
 import { OrganigramaDialogComponent } from './components/organigrama-dialog/organigrama-dialog.component'
-
+import { OikosService } from '../../services/oikos.service';
+import { Desplegables } from 'src/app/models/desplegables.models';
 
 @Component({
   selector: 'app-gestion',
@@ -19,7 +20,9 @@ export class GestionComponent implements AfterViewInit{
   @Input('normalform') normalform: any;
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   
-  tiposDependencia = signal<string[]>([]);
+  tiposDependencia: Desplegables[] = [];
+  facultades: Desplegables[] = [];
+  vicerrectorias: Desplegables[] = [];
 
   columnasBusqueda = signal<string[]>(["NOMBRE","DEPENDENCIA ASOCIADAS","TIPO","ESTADO","ACCIONES"]);
   
@@ -54,34 +57,58 @@ export class GestionComponent implements AfterViewInit{
   
 
   constructor(
+    private oikosService: OikosService,
     public dialog: MatDialog,
   ){
     this.cargarTiposDependencia();
+    this.cargarFacultades();
+    this.cargarVicerrectorias();
     this.datos = new MatTableDataSource(this.elementosBusqueda())
+    
   }
   
   ngAfterViewInit(){
     this.datos.paginator = this.paginator;
   }
 
+  
   cargarTiposDependencia(){
-    const tipos =[
-      "OFICINA ASESORA",
-      "DIVISIÓN",
-      "SECRETARIA ACADEMICA",
-      "CENTRO",
-      "INSTITUTO",
-      "LABORATORIO",
-      "ASOSIACIÓN",
-      "PREGRADO",
-      "ENTIDAD",
-      "UNIDAD EJECUTORA",
-      "OFICINA",
-      "COMITE"
-    ]
-    for (let i=0; i < tipos.length; i++){
-      this.tiposDependencia().push(tipos[i])
-    }
+    this.oikosService.get('tipo_dependencia?limit=-1').subscribe((res:any)=>{
+      this.tiposDependencia = res.map((item:any) => ({
+        id: item.Id,
+        nombre: item.Nombre
+      }));
+    })
+  }
+
+  cargarFacultades(){
+    this.oikosService.get('dependencia?limit=-1').subscribe((res: any) => {
+      this.facultades = res.filter((item: any) => 
+          item.DependenciaTipoDependencia && 
+          item.DependenciaTipoDependencia.some((tipoDependencia: any) => 
+            tipoDependencia.TipoDependenciaId.Nombre === 'FACULTAD'
+          )
+        )
+        .map((item: any) =>({
+          id: item.Id,
+          nombre: item.Nombre
+        }));
+    });
+  }
+
+  cargarVicerrectorias(){
+    this.oikosService.get('dependencia?limit=-1').subscribe((res: any) => {
+      this.vicerrectorias = res.filter((item: any) => 
+          item.DependenciaTipoDependencia && 
+          item.DependenciaTipoDependencia.some((tipoDependencia: any) => 
+            tipoDependencia.TipoDependenciaId.Nombre === 'VICERRECTORIA'
+          )
+        )
+        .map((item: any) =>({
+          id: item.Id,
+          nombre: item.Nombre
+        }));
+    });
   }
 
   abrirDialogEditarDependencia(){
@@ -99,5 +126,7 @@ export class GestionComponent implements AfterViewInit{
       height: '90%',
     });
   }
+
+
 
 }
