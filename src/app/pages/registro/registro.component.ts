@@ -66,7 +66,7 @@ export class RegistroComponent {
   }
 
   cargarTiposDependencia(){
-    this.oikosService.get('tipo_dependencia?limit=-1').subscribe((res:any)=>{
+    this.oikosService.get('tipo_dependencia?limit=-1&query=Activo:true').subscribe((res:any)=>{
       this.tiposDependencia = res.map((item:any) => ({
         id: item.Id,
         nombre: item.Nombre

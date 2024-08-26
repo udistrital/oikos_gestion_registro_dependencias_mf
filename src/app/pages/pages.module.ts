@@ -5,17 +5,20 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { RegistroComponent } from './registro/registro.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDividerModule } from '@angular/material/divider';
-import {MatTableModule} from '@angular/material/table';
-import { MatPaginatorModule} from '@angular/material/paginator';
-import { MatSortModule} from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 import { GestionComponent } from './gestion/gestion.component';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { EditarDependenciaDialogComponent } from './gestion/components/editar-dependencia-dialog/editar-dependencia-dialog.component';
-import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { OrganigramaDialogComponent } from './gestion/components/organigrama-dialog/organigrama-dialog.component';
 import { OrganizationChartModule } from 'primeng/organizationchart';
 import { ReactiveFormsModule } from '@angular/forms'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,10 @@ import { ReactiveFormsModule } from '@angular/forms'
     MatButtonModule,
     MatDialogModule,
     OrganizationChartModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressSpinnerModule,
+    MatSelectModule,
+    MatCheckboxModule
   ],
   providers:[
     { provide: MAT_DIALOG_DATA, useValue: {} },
