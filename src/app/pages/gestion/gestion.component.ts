@@ -151,7 +151,7 @@ export class GestionComponent implements AfterViewInit {
   buscarDependencias() {
     const busqueda = this.construirBusqueda();
 
-    this.cargando = true; // Mostrar el loader
+    this.cargando = true;
 
     this.oikosMidService.post("gestion_dependencias_mid/BuscarDependencia", busqueda).subscribe(
       (res: any) => {

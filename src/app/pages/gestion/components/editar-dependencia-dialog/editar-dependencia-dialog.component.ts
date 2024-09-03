@@ -135,8 +135,8 @@ export class EditarDependenciaDialogComponent {
           this.popUpManager.showErrorAlert("Error al crear la dependencia: " + (error.message || 'Error desconocido'));
           return of(null); 
       })
-  ).subscribe();
-  this.dialogRef.close();
+    ).subscribe();
+    this.dialogRef.close();
   }
 
   onCloseClick(){
