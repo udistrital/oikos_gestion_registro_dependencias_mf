@@ -38,7 +38,9 @@ export class OrganigramaDialogComponent implements OnInit {
   ];
 
   dependencias: { [key: string]: Organigrama } = {};
-  data: TreeNode[][] = []; 
+  general: TreeNode[][] = []; 
+  administrativo: TreeNode[][] = []; 
+  academico: TreeNode[][] = []; 
 
   constructor(
     public dialogRef: MatDialogRef<OrganigramaDialogComponent>,
@@ -56,12 +58,27 @@ export class OrganigramaDialogComponent implements OnInit {
   cargar_arbol() {
     this.oikosMidService.get("gestion_dependencias_mid/Organigramas").subscribe((res: any) => {
       this.dependencias = res.Data.General;
-      // Process each organizational chart separately
       for (let key in this.dependencias) {
         if (this.dependencias.hasOwnProperty(key)) {
           const organigrama = this.dependencias[key];
           const treeNodes = this.crear_arbol(organigrama);
-          this.data.push(treeNodes);
+          this.general.push(treeNodes);
+        }
+      }
+      this.dependencias = res.Data.Academico;
+      for (let key in this.dependencias) {
+        if (this.dependencias.hasOwnProperty(key)) {
+          const organigrama = this.dependencias[key];
+          const treeNodes = this.crear_arbol(organigrama);
+          this.academico.push(treeNodes);
+        }
+      }
+      this.dependencias = res.Data.Administrativo;
+      for (let key in this.dependencias) {
+        if (this.dependencias.hasOwnProperty(key)) {
+          const organigrama = this.dependencias[key];
+          const treeNodes = this.crear_arbol(organigrama);
+          this.administrativo.push(treeNodes);
         }
       }
     });
