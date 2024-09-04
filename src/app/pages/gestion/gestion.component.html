@@ -7,102 +7,122 @@
                 <mat-card>
                     <div class="contenido-gestion">
                         <mat-card-title class="titulo2"> BUSCAR DEPENDENCIAS</mat-card-title> 
-                        <button class="boton-organigrama" (click)="abrirDialogOrganigrama()">VER ORGANIGRAMAS </button><button class="boton-ayuda">?   
+                        <button class="boton-organigrama" (click)="abrirDialogOrganigrama()">VER ORGANIGRAMAS </button>
+                        <button class="boton-ayuda">?   
                             <span class="tooltip-text-organigrama">
                                 <p>• Botón para poder ver todos los</p>
-                                <p>organigramas de la institución.</p></span></button>
+                                <p>organigramas de la institución.</p>
+                            </span>
+                        </button>
                     </div>
                     <mat-divider class="divider"></mat-divider>
                     <mat-card-content>  
-                        <form class="form-horizontal">
+                        <form [formGroup]="gestionForm">
                             <div class="grid">
                                 <div class="left-column">
-                                    <p class="nombre-input">NOMBRE DEPENCIA <button class="boton-ayuda">?   
-                                        <span class="tooltip-text">
-                                            <p>• El nombre de la dependencia debe ir en mayusculas.</p>
-                                            <p>• Sin tildes.</p>
-                                        </span>
-                                    </button> </p>
-                                    <input type="text">
+                                    <p class="nombre-input">NOMBRE DEPENCIA 
+                                        <button class="boton-ayuda">?   
+                                            <span class="tooltip-text">
+                                                <p>• El nombre de la dependencia debe ir en mayusculas.</p>
+                                                <p>• Sin tildes.</p>
+                                            </span>
+                                        </button> 
+                                    </p>
+                                    <input type="text" formControlName="nombre">
                                     <p class="nombre-input">TIPO DEPENCIA </p>
-                                    <select >
+                                    <select formControlName="tipoDependencia">
                                         <option>...</option>
-                                        <option *ngFor="let item of tiposDependencia" [value]="item">
+                                        <option *ngFor="let item of tiposDependencia" [ngValue]="item">
                                             {{item.nombre}}
                                         </option>
                                     </select>
-                                    <button class="boton-accion">BUSCAR</button>
+                                    <button class="boton-accion" (click)="buscarDependencias()">BUSCAR</button>
                                 </div>
                                 <div class="right-column">
-                                    <p class="nombre-input">FACULTADES <button class="boton-ayuda">?   
-                                        <span class="tooltip-text">
-                                            <p>• El nombre de la Facultad debe ir en mayusculas.</p>
-                                            <p>• Sin tildes.</p>
-                                        </span>
-                                    </button> </p>
-                                    <select >
+                                    <p class="nombre-input">FACULTADES 
+                                        <button class="boton-ayuda">?   
+                                            <span class="tooltip-text">
+                                                <p>• El nombre de la Facultad debe ir en mayusculas.</p>
+                                                <p>• Sin tildes.</p>
+                                            </span>
+                                        </button> 
+                                    </p>
+                                    <select formControlName="facultad">
                                         <option>...</option>
-                                        <option *ngFor="let item of facultades" [value]="item">
+                                        <option *ngFor="let item of facultades" [ngValue]="item">
                                             {{item.nombre}}
                                         </option>
                                     </select>
                                     
-                                    <p class="nombre-input">VICERECTORIA <button class="boton-ayuda">?   
-                                        <span class="tooltip-text">
-                                            <p>• El nombre de la Vicerectoria debe ir en mayusculas.</p>
-                                            <p>• Sin tildes.</p>
-                                        </span>
-                                    </button> </p>
-                                    <select >
+                                    <p class="nombre-input">VICERECTORIA 
+                                        <button class="boton-ayuda">?   
+                                            <span class="tooltip-text">
+                                                <p>• El nombre de la Vicerectoria debe ir en mayusculas.</p>
+                                                <p>• Sin tildes.</p>
+                                            </span>
+                                        </button> 
+                                    </p>
+                                    <select formControlName="vicerrectoria">
                                         <option>...</option>
-                                        <option *ngFor="let item of vicerrectorias" [value]="item">
+                                        <option *ngFor="let item of vicerrectorias" [ngValue]="item">
                                             {{item.nombre}}
                                         </option>
                                     </select>
                                     <p class="nombre-input">ESTADO </p>
-                                    <select >
+                                    <select formControlName="estado">
+                                        <option>...</option>
                                         <option>ACTIVO</option>
                                         <option>NO ACTIVO</option>
                                     </select>
                                 </div>
                             </div>
                         </form>
-                        <table  mat-table [dataSource]="datos" class="mat-elevation-z8 tabla-gestion">
-                            <ng-container matColumnDef="NOMBRE">
-                                <th mat-header-cell *matHeaderCellDef class="titulo-tabla" > NOMBRE </th>
-                                <td mat-cell *matCellDef="let element" class="contenido-celda"> {{element.nombre}} </td>
-                            </ng-container>
-                            <ng-container matColumnDef="DEPENDENCIA ASOCIADAS">
-                                <th mat-header-cell *matHeaderCellDef class="titulo-tabla"> DEPENDENCIAS ASOCIADAS </th>
-                                <td mat-cell *matCellDef="let element" class="contenido-celda"> {{element.dependenciasAsociadas}} </td>
-                            </ng-container>
-                            <ng-container matColumnDef="TIPO">
-                                <th mat-header-cell *matHeaderCellDef class="titulo-tabla"> TIPO </th>
-                                <td mat-cell *matCellDef="let element" class="contenido-celda"> {{element.tipoDependencia}} </td>
-                            </ng-container>
-                            <ng-container matColumnDef="ESTADO">
-                                <th mat-header-cell *matHeaderCellDef class="titulo-tabla"> ESTADO </th>
-                                <td mat-cell *matCellDef="let element" class="contenido-celda"> {{element.estado}} </td>
-                            </ng-container>
-                            <ng-container matColumnDef="ACCIONES">
-                                <th mat-header-cell *matHeaderCellDef class="titulo-tabla"> ACCIONES </th>
-                                <td mat-cell *matCellDef="let element" class="contenido-celda"> 
-                                    <span >
-                                        <mat-icon class="icono-rojo" (click)="abrirDialogEditarDependencia()">edit</mat-icon>
-                                        <mat-icon class="icono-rojo" >check</mat-icon>
-                                        <mat-icon class="icono-rojo">close</mat-icon>
 
-                                    </span>
-                                </td>
-                            </ng-container>
-                            <tr mat-header-row class="titulo-tabla" *matHeaderRowDef="columnasBusqueda()"></tr>
-                            <tr mat-row *matRowDef="let row; columns: columnasBusqueda();"></tr>
-                        </table>                        
-                        <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                            showFirstLastButtons>
-                        </mat-paginator>
+                        <div *ngIf="cargando" class="loader">
+                            <mat-progress-spinner
+                                mode="indeterminate"
+                                color="primary">
+                            </mat-progress-spinner>
+                        </div>
+
+                        <ng-container *ngIf="mostrarTabla && !cargando">
+                            <table mat-table [dataSource]="datos" class="mat-elevation-z8 tabla-gestion">
+                                <ng-container matColumnDef="NOMBRE">
+                                    <th mat-header-cell *matHeaderCellDef class="titulo-tabla"> NOMBRE </th>
+                                    <td mat-cell *matCellDef="let element" class="contenido-celda"> {{element.nombre}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="DEPENDENCIA ASOCIADAS">
+                                    <th mat-header-cell *matHeaderCellDef class="titulo-tabla"> DEPENDENCIAS ASOCIADAS </th>
+                                    <td mat-cell *matCellDef="let element" class="contenido-celda"> {{element.dependenciasAsociadas.nombre}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="TIPO">
+                                    <th mat-header-cell *matHeaderCellDef class="titulo-tabla"> TIPO </th>
+                                    <td mat-cell *matCellDef="let element" class="contenido-celda"> 
+                                        <ng-container *ngFor="let tipo of element.tipoDependencia">
+                                            {{tipo.nombre}},
+                                        </ng-container>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="ESTADO">
+                                    <th mat-header-cell *matHeaderCellDef class="titulo-tabla"> ESTADO </th>
+                                    <td mat-cell *matCellDef="let element" class="contenido-celda"> {{element.estado}} </td>
+                                </ng-container>
+                                <ng-container matColumnDef="ACCIONES">
+                                    <th mat-header-cell *matHeaderCellDef class="titulo-tabla"> ACCIONES </th>
+                                    <td mat-cell *matCellDef="let element" class="contenido-celda"> 
+                                        <span >
+                                            <mat-icon class="icono-rojo" (click)="abrirDialogEditarDependencia(element)">edit</mat-icon>
+                                            <mat-icon class="icono-rojo" >check</mat-icon>
+                                            <mat-icon class="icono-rojo">close</mat-icon>
+                                        </span>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row class="titulo-tabla" *matHeaderRowDef="columnasBusqueda()"></tr>
+                                <tr mat-row *matRowDef="let row; columns: columnasBusqueda();"></tr>
+                            </table>                        
+                            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                        </ng-container>
                     </mat-card-content>
-                    
                 </mat-card> 
             </mat-card-content>
         </mat-card>
