@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
-            "outputPath": "dist/registro-gestion",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.single-spa.ts",
             "polyfills": [
