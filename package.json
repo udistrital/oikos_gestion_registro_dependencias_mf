@@ -3,12 +3,15 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 4202",
+    "start": "ng serve --port 4215",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build:single-spa:registroGestion": "ng build registroGestion --configuration production",
-    "serve:single-spa:registroGestion": "ng s --project registroGestion --disable-host-check --port 4202 --live-reload false"
+    "prepare": "husky",
+    "build:single-spa:sga-planEstudios-mf": "ng build sga-planEstudios-mf --configuration production",
+    "serve:single-spa:sga-planEstudios-mf": "ng s --project sga-planEstudios-mf --disable-host-check --port 4215 --live-reload false",
+    "build:prod": "ng build --progress --configuration=production",
+    "build:test": "ng build --progress --configuration=development"
   },
   "private": true,
   "dependencies": {
@@ -39,6 +42,7 @@
     "@angular/cli": "^16.2.14",
     "@angular/compiler-cli": "^16.2.0",
     "@types/jasmine": "~4.3.0",
+    "husky": "^9.1.5",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
