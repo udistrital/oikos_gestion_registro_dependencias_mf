@@ -112,8 +112,8 @@
                                     <td mat-cell *matCellDef="let element" class="contenido-celda"> 
                                         <span >
                                             <mat-icon class="icono-rojo" (click)="abrirDialogEditarDependencia(element)">edit</mat-icon>
-                                            <mat-icon class="icono-rojo" >check</mat-icon>
-                                            <mat-icon class="icono-rojo">close</mat-icon>
+                                            <mat-icon class="icono-rojo" (click)="activarDependencia(element)">check</mat-icon>
+                                            <mat-icon class="icono-rojo" (click)="desactivarDependencia(element)">close</mat-icon>
                                         </span>
                                     </td>
                                 </ng-container>

@@ -9,6 +9,9 @@ import { OikosService } from '../../services/oikos.service';
 import { OikosMidService } from '../../services/oikos_mid.service';
 import { Desplegables } from 'src/app/models/desplegables.models';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { PopUpManager } from '../../managers/popUpManager';
+import { catchError, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-gestion',
@@ -55,6 +58,7 @@ export class GestionComponent implements AfterViewInit {
     private oikosService: OikosService,
     public dialog: MatDialog,
     private oikosMidService: OikosMidService,
+    private popUpManager: PopUpManager
   ) {
     this.cargarTiposDependencia();
     this.cargarFacultades();
@@ -187,4 +191,77 @@ export class GestionComponent implements AfterViewInit {
     );
     this.mostrarTabla = true;
   }
+
+  /* Inicio de activar y desactivar dependencia */ 
+
+  consultarDependencia(id: number): Promise<any> {
+    return this.oikosService.get('dependencia/' + id).toPromise();
+  }
+
+  async activarDependencia(element: any) {
+    const fechaActual = new Date().toISOString();
+
+    try {
+      const dataConsulta: any = await this.consultarDependencia(element.id);
+
+      const dataActualizada = {
+        "Id": dataConsulta.Id,
+        "Nombre": dataConsulta.Nombre,
+        "TelefonoDependencia": dataConsulta.TelefonoDependencia,
+        "CorreoElectronico": dataConsulta.CorreoElectronico,
+        "Activo": true,
+        "FechaCreacion": dataConsulta.FechaCreacion,
+        "FechaModificacion": fechaActual,
+        "DependenciaTipoDependencia": element.tipoDependencia 
+          ? element.tipoDependencia.map((tipo: any) => ({ "Id": tipo.id }))
+          : []
+      }
+  
+      const response: any = await this.oikosService.put("dependencia", dataActualizada).toPromise();
+      
+      if (response && response.Id === dataActualizada.Id && response.Activo === dataActualizada.Activo) {
+        this.popUpManager.showSuccessAlert("Dependencia activada");
+      } else {
+        this.popUpManager.showErrorAlert("Error al activar la dependencia");
+      }
+      
+    } catch (error) {
+      this.popUpManager.showErrorAlert("Error al activar la dependencia: Error desconocido");
+    }
+  }
+
+  async desactivarDependencia(element: any) {
+    const fechaActual = new Date().toISOString();
+
+    try {
+      const dataConsulta: any = await this.consultarDependencia(element.id);
+
+      const dataActualizada = {
+        "Id": dataConsulta.Id,
+        "Nombre": dataConsulta.Nombre,
+        "TelefonoDependencia": dataConsulta.TelefonoDependencia,
+        "CorreoElectronico": dataConsulta.CorreoElectronico,
+        "Activo": false,
+        "FechaCreacion": dataConsulta.FechaCreacion,
+        "FechaModificacion": fechaActual,
+        "DependenciaTipoDependencia": element.tipoDependencia?.map((tipo: any) => ({
+          "Id": tipo.id
+        }))
+      }
+  
+      const response: any = await this.oikosService.put("dependencia", dataActualizada).toPromise();
+      
+      if (response && response.Id === dataActualizada.Id && response.Activo === dataActualizada.Activo) {
+        this.popUpManager.showSuccessAlert("Dependencia desactivada");
+      } else {
+        this.popUpManager.showErrorAlert("Error al desactivar la dependencia");
+      }
+      
+    } catch (error) {
+      this.popUpManager.showErrorAlert("Error al desactivar la dependencia: Error desconocido");
+    }
+  }
+
+  /* Fin de activar y desactivar dependencia */ 
+  
 }
