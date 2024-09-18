@@ -46,12 +46,11 @@
                                 </div>
                                 <div class="right-column">
                                     <p class="nombre-input">TIPO DEPENDENCIA</p>
-                                    <select formControlName="tipoDependencia" >
-                                        <option> ... </option>
-                                        <option *ngFor="let item of tiposDependencia" [ngValue]="item">
+                                    <mat-select formControlName="tipoDependencia" multiple>
+                                        <mat-option *ngFor="let item of tiposDependencia" [value]="item">
                                             {{item.nombre}}
-                                        </option>
-                                    </select>
+                                        </mat-option>
+                                    </mat-select>
 
                                     <p class="nombre-input">DEPENDENCIA ASOCIADA</p>
                                     <select  formControlName="dependenciaAsociada">

@@ -1,4 +1,4 @@
-import { Component, signal, Inject} from '@angular/core';
+import { Component, Inject, OnInit} from '@angular/core';
 import { Desplegables } from 'src/app/models/desplegables.models';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -17,35 +17,14 @@ import { of } from 'rxjs';
   templateUrl: './editar-dependencia-dialog.component.html',
   styleUrls: ['./editar-dependencia-dialog.component.css']
 })
-export class EditarDependenciaDialogComponent {
+export class EditarDependenciaDialogComponent implements OnInit {
   dependencia: BusquedaGestion;
   tiposDependencia: Desplegables[] = [];
   dependenciasAsociadas: Desplegables[] = [];
   tiposSeleccionados: Desplegables[]=[];
 
-  EditarForm = new FormGroup({
-    nombre: new FormControl<string | null>(null, {
-      nonNullable: false,
-      validators: [Validators.required]
-    }),
-    telefono: new FormControl<string | null>(null, {
-      nonNullable: false,
-      validators: [Validators.required]
-    }),
-    correo: new FormControl<string | null>(null, {
-      nonNullable: false,
-      validators: [Validators.required]
-    }),
-    tipoDependencia: new FormControl<Desplegables[] >([], {
-      nonNullable: true,
-      validators: [Validators.required]
-    }),
-    dependenciaAsociada: new FormControl<Desplegables | null>(null, {
-      nonNullable: true,
-      validators: [Validators.required]
-    })
-  });
-  
+  EditarForm !: FormGroup;
+   
 
   constructor(
     public dialogRef: MatDialogRef<EditarDependenciaDialogComponent>,
@@ -61,7 +40,33 @@ export class EditarDependenciaDialogComponent {
     this.preseleccionarDependenciaAsociada();
   }
 
-
+  ngOnInit() {
+    this.iniciarFormularioConsulta();
+  }
+  iniciarFormularioConsulta(){
+    this.EditarForm = new FormGroup({
+      nombre: new FormControl<string | null>(null, {
+        nonNullable: false,
+        validators: [Validators.required]
+      }),
+      telefono: new FormControl<string | null>(null, {
+        nonNullable: false,
+        validators: [Validators.required]
+      }),
+      correo: new FormControl<string | null>(null, {
+        nonNullable: false,
+        validators: [Validators.required]
+      }),
+      tipoDependencia: new FormControl<Desplegables[] >([], {
+        nonNullable: true,
+        validators: [Validators.required]
+      }),
+      dependenciaAsociada: new FormControl<Desplegables | null>(null, {
+        nonNullable: true,
+        validators: [Validators.required]
+      })
+    });
+  }
   cargarTiposDependencia() {
     this.oikosService.get('tipo_dependencia?limit=-1&query=Activo:true').subscribe((res: any) => {
       this.tiposDependencia = res.map((item: any) => ({

@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { OikosService } from '../../services/oikos.service';
 import { OikosMidService } from '../../services/oikos_mid.service';
 import { PopUpManager } from '../../managers/popUpManager'
@@ -16,45 +16,13 @@ import { of } from 'rxjs';
 
 
 
-export class RegistroComponent {
+export class RegistroComponent implements OnInit{
   @Input('normalform') normalform: any;
 
   tiposDependencia: Desplegables[] = [];
   dependenciasAsociadas: Desplegables[] = [];
- 
-  registroForm = new FormGroup({
-    nombre: new FormControl("",{
-      nonNullable: false,
-      validators:[
-        Validators.required
-      ]
-    }),
-    telefono: new FormControl("",{
-      nonNullable:true,
-      validators:[
-        Validators.required
-      ]
-    }),
-    correo: new FormControl("",{
-      nonNullable:true,
-      validators:[
-        Validators.required
-      ]
-    }),
-    tipoDependencia: new FormControl<Desplegables | null>(null,{
-      nonNullable:true,
-      validators:[
-        Validators.required
-      ]
-    }),
-    dependenciaAsociada: new FormControl<Desplegables | null>(null,{
-      nonNullable:true,
-      validators:[
-        Validators.required
-      ]
-    }),
-  })
-
+  registroForm !: FormGroup;
+  
   constructor(
     private oikosService: OikosService,
     private oikosMidService: OikosMidService,
@@ -63,6 +31,45 @@ export class RegistroComponent {
   ){
     this.cargarTiposDependencia();
     this.cargarDependenciasAsociadas();
+  }
+
+  ngOnInit() {
+    this.iniciarFormularioConsulta();
+  }
+
+  iniciarFormularioConsulta(){
+    this.registroForm = new FormGroup({
+      nombre: new FormControl<string | null>("",{
+        nonNullable: false,
+        validators:[
+          Validators.required
+        ]
+      }),
+      telefono: new FormControl<string | null>("",{
+        nonNullable:true,
+        validators:[
+          Validators.required
+        ]
+      }),
+      correo: new FormControl<string | null>("",{
+        nonNullable:true,
+        validators:[
+          Validators.required
+        ]
+      }),
+      tipoDependencia: new FormControl<Desplegables[] | null>([],{
+        nonNullable:true,
+        validators:[
+          Validators.required
+        ]
+      }),
+      dependenciaAsociada: new FormControl<Desplegables | null>(null,{
+        nonNullable:true,
+        validators:[
+          Validators.required
+        ]
+      }),
+    })  
   }
 
   cargarTiposDependencia(){
@@ -84,34 +91,36 @@ export class RegistroComponent {
   }
 
   construirObjetoRegistro(): any{
+    const formValues = this.registroForm.value;
     return{
       Dependencia:{
-        Nombre: this.registroForm.value.nombre,
-        TelefonoDependencia: this.registroForm.value.telefono,
-        CorreoElectronico: this.registroForm.value.correo
+        Nombre: formValues.nombre,
+        TelefonoDependencia: formValues.telefono,
+        CorreoElectronico: formValues.correo
       },
-      TipoDependenciaId: this.registroForm.value.tipoDependencia?.id,
-      DependenciaAsociadaId: this.registroForm.value.dependenciaAsociada?.id
+      TipoDependenciaId: formValues.tipoDependencia?.map((tipo: Desplegables) => tipo.id) || [],
+      DependenciaAsociadaId: formValues.dependenciaAsociada?.id
     }
   }
 
 
   enviarDependencia(){
     const registro = this.construirObjetoRegistro();
-    this.oikosMidService.post("gestion_dependencias_mid/RegistrarDependencia", registro).pipe(
-      tap((res: any) => {
-          if (res.Success) {
-              this.popUpManager.showSuccessAlert("Dependencia creada");
-          } else {
-              this.popUpManager.showErrorAlert("Error al crear la dependencia");
-          }
-      }),
-      catchError((error) => {
-          console.error('Error en la solicitud:', error);
-          this.popUpManager.showErrorAlert("Error al crear la dependencia: " + (error.message || 'Error desconocido'));
-          return of(null); 
-      })
-  ).subscribe();
+    console.log(registro)
+  //   this.oikosMidService.post("gestion_dependencias_mid/RegistrarDependencia", registro).pipe(
+  //     tap((res: any) => {
+  //         if (res.Success) {
+  //             this.popUpManager.showSuccessAlert("Dependencia creada");
+  //         } else {
+  //             this.popUpManager.showErrorAlert("Error al crear la dependencia");
+  //         }
+  //     }),
+  //     catchError((error) => {
+  //         console.error('Error en la solicitud:', error);
+  //         this.popUpManager.showErrorAlert("Error al crear la dependencia: " + (error.message || 'Error desconocido'));
+  //         return of(null); 
+  //     })
+  // ).subscribe();
   }
 
 }
