@@ -8,7 +8,7 @@ import { BusquedaGestion } from 'src/app/models/busquedaGestion.models';
 import { catchError, tap } from 'rxjs/operators';
 import { PopUpManager } from '../../../../managers/popUpManager'
 import { of } from 'rxjs';
-
+import { Output, EventEmitter } from '@angular/core';
 
 
 
@@ -119,20 +119,23 @@ export class EditarDependenciaDialogComponent {
     };
   }
   
-  
+  @Output() dependenciaActualizada = new EventEmitter<void>();
+
   editarDependencia(){
+    this.popUpManager.showLoaderAlert("Actualizando");
     const editar = this.construirEdicion();
     this.oikosMidService.post("gestion_dependencias_mid/EditarDependencia", editar).pipe(
       tap((res: any) => {
           if (res.Success) {
-              this.popUpManager.showSuccessAlert("Dependencia creada");
+              this.popUpManager.showSuccessAlert("Dependencia actualizada con éxito");
+              this.dependenciaActualizada.emit();
           } else {
-              this.popUpManager.showErrorAlert("Error al crear la dependencia");
+              this.popUpManager.showErrorAlert("Error al actualizar la dependencia");
           }
       }),
       catchError((error) => {
           console.error('Error en la solicitud:', error);
-          this.popUpManager.showErrorAlert("Error al crear la dependencia: " + (error.message || 'Error desconocido'));
+          this.popUpManager.showErrorAlert("Error al actualizar la dependencia: " + (error.message || 'Error desconocido'));
           return of(null); 
       })
     ).subscribe();

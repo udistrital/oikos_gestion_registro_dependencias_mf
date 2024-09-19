@@ -115,6 +115,10 @@ export class GestionComponent implements AfterViewInit {
       maxHeight: '65vh',
       data:element
     });
+
+    dialogRef.componentInstance.dependenciaActualizada.subscribe(() => {
+      this.recargarTabla();  
+    });
   }
 
   abrirDialogOrganigrama() {
@@ -264,4 +268,46 @@ export class GestionComponent implements AfterViewInit {
 
   /* Fin de activar y desactivar dependencia */ 
   
+  /* Inicio recarga tabla */
+
+  public recargarTabla(): void {
+    const busqueda = this.construirBusqueda();  // Mantén los filtros actuales
+    this.cargando = true;
+
+    this.oikosMidService.post("gestion_dependencias_mid/BuscarDependencia", busqueda).subscribe(
+      (res: any) => {
+        const datosTransformados = res.Data.map((item: any) => ({
+          id: item.Dependencia.Id,
+          nombre: item.Dependencia.Nombre,
+          telefono: item.Dependencia.TelefonoDependencia,
+          correo: item.Dependencia.CorreoElectronico,
+          dependenciasAsociadas: {
+            id: item.DependenciaAsociada.Id,          
+            nombre: item.DependenciaAsociada.Nombre
+          },
+          tipoDependencia: item.TipoDependencia.map((tipo: any) => ({
+            id: tipo.Id,          
+            nombre: tipo.Nombre   
+          })),
+          estado: item.Estado ? 'ACTIVA' : 'NO ACTIVA',
+        }));
+
+        this.elementosBusqueda.set(datosTransformados);
+        this.datos.data = this.elementosBusqueda();
+
+        if (this.paginator) {
+          this.datos.paginator = this.paginator;
+        }
+
+        this.cargando = false;
+      },
+      (error) => {
+        console.error('Error al buscar dependencias', error);
+        this.cargando = false;
+      }
+    );
+  }
+
+  /* Fin recarga tabla */
+
 }
