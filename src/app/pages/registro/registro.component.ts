@@ -107,20 +107,20 @@ export class RegistroComponent implements OnInit{
   enviarDependencia(){
     const registro = this.construirObjetoRegistro();
     console.log(registro)
-  //   this.oikosMidService.post("gestion_dependencias_mid/RegistrarDependencia", registro).pipe(
-  //     tap((res: any) => {
-  //         if (res.Success) {
-  //             this.popUpManager.showSuccessAlert("Dependencia creada");
-  //         } else {
-  //             this.popUpManager.showErrorAlert("Error al crear la dependencia");
-  //         }
-  //     }),
-  //     catchError((error) => {
-  //         console.error('Error en la solicitud:', error);
-  //         this.popUpManager.showErrorAlert("Error al crear la dependencia: " + (error.message || 'Error desconocido'));
-  //         return of(null); 
-  //     })
-  // ).subscribe();
+    this.oikosMidService.post("gestion_dependencias_mid/RegistrarDependencia", registro).pipe(
+      tap((res: any) => {
+          if (res.Success) {
+              this.popUpManager.showSuccessAlert("Dependencia creada");
+          } else {
+              this.popUpManager.showErrorAlert("Error al crear la dependencia");
+          }
+      }),
+      catchError((error) => {
+          console.error('Error en la solicitud:', error);
+          this.popUpManager.showErrorAlert("Error al crear la dependencia: " + (error.message || 'Error desconocido'));
+          return of(null); 
+      })
+  ).subscribe();
   }
 
 }
