@@ -1,7 +1,7 @@
 
 <mat-card>
     <div class="contenido-editar">
-        <mat-card-title class="titulo"> EDITAR DEPENDENCIA</mat-card-title> 
+        <mat-card-title class="titulo">EDITAR DEPENDENCIA</mat-card-title> 
         <button class="boton-salir" (click)="onCloseClick()">x</button>
     </div>
     <mat-divider class="divider"></mat-divider>
@@ -9,10 +9,10 @@
         <form [formGroup]="EditarForm">
             <div class="grid">
                 <div class="left-column">
-                    <p class="nombre-input">NOMBRE DEPENCIA 
+                    <p class="nombre-input">NOMBRE DEPENDENCIA 
                         <button class="boton-ayuda">?   
                             <span class="tooltip-text">
-                                <p>El nombre de la dependencia debe ir en mayusculas.</p>
+                                <p>El nombre de la dependencia debe ir en mayúsculas.</p>
                                 <p>Sin tildes.</p>
                                 <p>Debe ser global el nombre.</p>
                                 <br>
@@ -23,7 +23,7 @@
                         </button> 
                     </p>
                     <input type="text" formControlName="nombre">
-                    <p class="nombre-input">TELEFONO ASOCIADO <button class="boton-ayuda">?   
+                    <p class="nombre-input">TELÉFONO ASOCIADO<button class="boton-ayuda">?   
                         <span class="tooltip-text">
                         <p>Incluir el número oficial de la dependencia.</p>
                         <p>Agregar las extensiones o decorativos necesarios.</p>

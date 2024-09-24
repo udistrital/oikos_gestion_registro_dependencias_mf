@@ -20,16 +20,16 @@
                         <form [formGroup]="gestionForm">
                             <div class="grid">
                                 <div class="left-column">
-                                    <p class="nombre-input">NOMBRE DEPENCIA 
+                                    <p class="nombre-input">NOMBRE DEPENDENCIA 
                                         <button class="boton-ayuda">?   
                                             <span class="tooltip-text">
-                                                <p>• El nombre de la dependencia debe ir en mayusculas.</p>
+                                                <p>• El nombre de la dependencia debe ir en mayúsculas.</p>
                                                 <p>• Sin tildes.</p>
                                             </span>
                                         </button> 
                                     </p>
                                     <input type="text" formControlName="nombre">
-                                    <p class="nombre-input">TIPO DEPENCIA </p>
+                                    <p class="nombre-input">TIPO DEPENDENCIA </p>
                                     <select formControlName="tipoDependencia">
                                         <option>...</option>
                                         <option *ngFor="let item of tiposDependencia" [ngValue]="item">
@@ -42,7 +42,7 @@
                                     <p class="nombre-input">FACULTADES 
                                         <button class="boton-ayuda">?   
                                             <span class="tooltip-text">
-                                                <p>• El nombre de la Facultad debe ir en mayusculas.</p>
+                                                <p>• El nombre de la Facultad debe ir en mayúsculas.</p>
                                                 <p>• Sin tildes.</p>
                                             </span>
                                         </button> 
@@ -54,10 +54,10 @@
                                         </option>
                                     </select>
                                     
-                                    <p class="nombre-input">VICERECTORIA 
+                                    <p class="nombre-input">VICERRECTORÍA 
                                         <button class="boton-ayuda">?   
                                             <span class="tooltip-text">
-                                                <p>• El nombre de la Vicerectoria debe ir en mayusculas.</p>
+                                                <p>• El nombre de la Vicerrectoría debe ir en mayúsculas.</p>
                                                 <p>• Sin tildes.</p>
                                             </span>
                                         </button> 

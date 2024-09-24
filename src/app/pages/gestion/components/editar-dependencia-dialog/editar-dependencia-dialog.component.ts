@@ -125,14 +125,14 @@ export class EditarDependenciaDialogComponent {
     this.oikosMidService.post("gestion_dependencias_mid/EditarDependencia", editar).pipe(
       tap((res: any) => {
           if (res.Success) {
-              this.popUpManager.showSuccessAlert("Dependencia creada");
+              this.popUpManager.showSuccessAlert("Dependencia editada");
           } else {
-              this.popUpManager.showErrorAlert("Error al crear la dependencia");
+              this.popUpManager.showErrorAlert("Error al editar la dependencia");
           }
       }),
       catchError((error) => {
           console.error('Error en la solicitud:', error);
-          this.popUpManager.showErrorAlert("Error al crear la dependencia: " + (error.message || 'Error desconocido'));
+          this.popUpManager.showErrorAlert("Error al editar la dependencia: " + (error.message || 'Error desconocido'));
           return of(null); 
       })
     ).subscribe();

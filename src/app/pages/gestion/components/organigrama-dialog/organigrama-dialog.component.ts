@@ -90,7 +90,7 @@ export class OrganigramaDialogComponent implements OnInit {
         }
       }
       Swal.close();
-      this.popUpManager.showSuccessAlert('Datos cargados con exito');
+      this.popUpManager.showSuccessAlert('Datos cargados con éxito');
     }, (error) => {
       Swal.close();
       this.popUpManager.showErrorAlert('Error al cargar los datos del organigrama');
