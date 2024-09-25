@@ -9,10 +9,10 @@
                         <form [formGroup]="registroForm">
                             <div class="grid">
                                 <div class="left-column">
-                                    <p class="nombre-input">NOMBRE DEPENCIA 
+                                    <p class="nombre-input">NOMBRE DEPENDENCIA 
                                         <button class="boton-ayuda">?   
                                             <span class="tooltip-text">
-                                                <p>El nombre de la dependencia debe ir en mayusculas.</p>
+                                                <p>El nombre de la dependencia debe ir en mayúsculas.</p>
                                                 <p>Sin tildes.</p>
                                                 <p>Debe ser global el nombre.</p>
                                                 <br>
@@ -23,7 +23,7 @@
                                         </button> 
                                     </p>
                                     <input type="text" formControlName="nombre">
-                                    <p class="nombre-input">TELEFONO ASOCIADO <button class="boton-ayuda">?   
+                                    <p class="nombre-input">TELÉFONO ASOCIADO <button class="boton-ayuda">?   
                                         <span class="tooltip-text">
                                         <p>Incluir el número oficial de la dependencia.</p>
                                         <p>Agregar las extensiones o decorativos necesarios.</p>
@@ -46,12 +46,11 @@
                                 </div>
                                 <div class="right-column">
                                     <p class="nombre-input">TIPO DEPENDENCIA</p>
-                                    <select formControlName="tipoDependencia" >
-                                        <option> ... </option>
-                                        <option *ngFor="let item of tiposDependencia" [ngValue]="item">
+                                    <mat-select formControlName="tipoDependencia" multiple>
+                                        <mat-option *ngFor="let item of tiposDependencia" [value]="item">
                                             {{item.nombre}}
-                                        </option>
-                                    </select>
+                                        </mat-option>
+                                    </mat-select>
 
                                     <p class="nombre-input">DEPENDENCIA ASOCIADA</p>
                                     <select  formControlName="dependenciaAsociada">

@@ -110,3 +110,50 @@ input, select{
     margin-bottom: 16px;
     margin-top: 2px;
 }
+
+.p-organizationchart .p-organizationchart-node-content.p-organizationchart-selectable-node:not(.p-highlight):hover {
+    background: #e9ecef;
+    color: #495057;
+}
+.p-organizationchart .p-organizationchart-node-content.p-highlight {
+    background: #EFF6FF;
+    color: #1D4ED8;
+}
+.p-organizationchart .p-organizationchart-node-content.p-highlight .p-node-toggler i {
+    color: #70aeff; 
+}
+.p-organizationchart .p-organizationchart-line-down {
+    background: #dee2e6;
+    color: #495057;
+}
+.p-organizationchart .p-organizationchart-line-left {
+    border-right: 1px solid #dee2e6;
+    border-color: #dee2e6;
+}
+.p-organizationchart .p-organizationchart-line-top {
+    border-top: 1px solid #dee2e6;
+    border-color: #dee2e6;
+}
+.p-organizationchart .p-organizationchart-node-content {
+    border: 1px solid #dee2e6;
+    background: #ffffff;
+    color: #495057;
+    padding: 1.25rem;
+}
+.p-organizationchart .p-organizationchart-node-content .p-node-toggler {
+    background: inherit;
+    color: inherit;
+    border-radius: 50%;
+}
+.p-organizationchart .p-organizationchart-node-content .p-node-toggler:focus-visible {
+    outline: 0 none;
+    outline-offset: 0;
+    box-shadow: 0 0 0 0.2rem #BFDBFE;
+}
+
+.card {
+    background: var(--surface-card);
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}

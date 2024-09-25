@@ -7,8 +7,12 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build:single-spa:registroGestion": "ng build registroGestion --configuration production",
-    "serve:single-spa:registroGestion": "ng s --project registroGestion --disable-host-check --port 4202 --live-reload false"
+    "prepare": "husky",
+    "build:single-spa:gestion-registro-dependencias-mf": "ng build gestion-registro-dependencias-mf --configuration production",
+    "serve:single-spa:gestion-registro-dependencias-mf": "ng s --project gestion-registro-dependencias-mf --disable-host-check --port 4202 --live-reload false",
+    "build:prod": "ng build --progress --configuration=production",
+    "build:test": "ng build --progress --configuration=development",
+    "build:local": "ng build --progress --configuration=local"
   },
   "private": true,
   "dependencies": {
@@ -27,6 +31,7 @@
     "primeng": "^16.9.1",
     "quill": "^2.0.2",
     "rxjs": "~7.8.0",
+    "simple-git": "^3.26.0",
     "single-spa": ">=4.0.0",
     "single-spa-angular": "^9.1.2",
     "sweetalert2": "^11.12.3",
@@ -39,6 +44,7 @@
     "@angular/cli": "^16.2.14",
     "@angular/compiler-cli": "^16.2.0",
     "@types/jasmine": "~4.3.0",
+    "husky": "^9.1.5",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
