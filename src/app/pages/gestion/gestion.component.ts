@@ -13,6 +13,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PopUpManager } from '../../managers/popUpManager';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+// @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 @Component({
