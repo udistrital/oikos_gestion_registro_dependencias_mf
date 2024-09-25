@@ -11,7 +11,7 @@ export class PopUpManager {
     showSuccessAlert(text: string) {
         Swal.fire({
             icon: 'success',
-            title: 'operacion exitosa',
+            title: 'Operación exitosa',
             text: text,
             confirmButtonText: 'aceptar',
         });
