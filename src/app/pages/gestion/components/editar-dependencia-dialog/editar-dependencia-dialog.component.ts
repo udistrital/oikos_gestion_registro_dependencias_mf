@@ -8,6 +8,7 @@ import { BusquedaGestion } from 'src/app/models/busquedaGestion.models';
 import { catchError, tap } from 'rxjs/operators';
 import { PopUpManager } from '../../../../managers/popUpManager'
 import { of } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 import { Output, EventEmitter } from '@angular/core';
 
 
@@ -53,7 +54,9 @@ export class EditarDependenciaDialogComponent {
     private oikosService: OikosService,
     private oikosMidService: OikosMidService,
     private popUpManager: PopUpManager,
+    private translate: TranslateService,
   ){
+    translate.setDefaultLang('es');
     this.dependencia = data;
     this.preseleccionarDatosDependencia();
     this.cargarTiposDependencia();
@@ -127,15 +130,15 @@ export class EditarDependenciaDialogComponent {
     this.oikosMidService.post("gestion_dependencias_mid/EditarDependencia", editar).pipe(
       tap((res: any) => {
           if (res.Success) {
-              this.popUpManager.showSuccessAlert("Dependencia actualizada con éxito");
+              this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.EDITAR'));
               this.dependenciaActualizada.emit();
           } else {
-              this.popUpManager.showErrorAlert("Error al actualizar la dependencia");
+              this.popUpManager.showErrorAlert(this.translate.instant('ERROR.EDITAR'));
           }
       }),
       catchError((error) => {
           console.error('Error en la solicitud:', error);
-          this.popUpManager.showErrorAlert("Error al actualizar la dependencia: " + (error.message || 'Error desconocido'));
+          this.popUpManager.showErrorAlert(this.translate.instant('ERROR.EDITAR') +": " + (error.message || this.translate.instant('ERROR.DESCONOCIDO')));
           return of(null); 
       })
     ).subscribe();

@@ -15,6 +15,9 @@ import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-gestion',
@@ -41,7 +44,9 @@ export class GestionComponent implements OnInit, AfterViewInit {
     public dialog: MatDialog,
     private oikosMidService: OikosMidService,
     private popUpManager: PopUpManager,
+    private translate: TranslateService,
   ) {
+    translate.setDefaultLang('es');
     this.cargarTiposDependencia();
     this.cargarFacultades();
     this.cargarVicerrectorias();
@@ -214,17 +219,17 @@ export class GestionComponent implements OnInit, AfterViewInit {
           setTimeout(() => { this.datos.paginator = this.paginator; }, 1000);
 
           Swal.close();
-          this.popUpManager.showSuccessAlert('Datos cargados con éxito');
-          this.mostrarTabla = true;
+          this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.BUSQUEDA'));
+          this.mostrarTabla = true;  
         } else {
           Swal.close();
-          this.popUpManager.showErrorAlert('Error al buscar dependencias: Datos no disponibles');
+          this.popUpManager.showErrorAlert(this.translate.instant('ERROR.BUSQUEDA.DATOS'));
           this.mostrarTabla = false;
         }
       }),
       catchError((error) => {
         Swal.close();
-        this.popUpManager.showErrorAlert('Error al buscar dependencias: ' + (error.message || 'Error desconocido'));
+        this.popUpManager.showErrorAlert(this.translate.instant('ERROR.BUSQUEDA.BUSQUEDA') + (error.message || this.translate.instant('ERROR.DESCONOCIDO')));
         console.error('Error al buscar dependencias:', error);
         this.mostrarTabla = false;
         return of(null);

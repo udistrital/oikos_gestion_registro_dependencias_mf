@@ -7,6 +7,7 @@ import { Desplegables } from 'src/app/models/desplegables.models';
 import { MatDialogRef } from '@angular/material/dialog';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-registro',
@@ -28,7 +29,9 @@ export class RegistroComponent implements OnInit{
     private oikosMidService: OikosMidService,
     private popUpManager: PopUpManager,
     public dialogRef: MatDialogRef<RegistroComponent>,
+    private translate: TranslateService,
   ){
+    translate.setDefaultLang('es');
     this.cargarTiposDependencia();
     this.cargarDependenciasAsociadas();
   }
@@ -110,14 +113,14 @@ export class RegistroComponent implements OnInit{
     this.oikosMidService.post("gestion_dependencias_mid/RegistrarDependencia", registro).pipe(
       tap((res: any) => {
           if (res.Success) {
-              this.popUpManager.showSuccessAlert("Dependencia creada");
+              this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.REGISTRAR'));
           } else {
-              this.popUpManager.showErrorAlert("Error al crear la dependencia");
+              this.popUpManager.showErrorAlert(this.translate.instant('ERROR.REGISTRAR'));
           }
       }),
       catchError((error) => {
           console.error('Error en la solicitud:', error);
-          this.popUpManager.showErrorAlert("Error al crear la dependencia: " + (error.message || 'Error desconocido'));
+          this.popUpManager.showErrorAlert(this.translate.instant('ERROR.REGISTRAR') + ": " + (error.message || 'Error desconocido'));
           return of(null); 
       })
   ).subscribe();
