@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { environment } from '../../environments/environment';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatCardModule } from '@angular/material/card';
 import { PagesRoutingModule } from './pages-routing.module';
 import { RegistroComponent } from './registro/registro.component';
@@ -19,6 +23,11 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+
+export function createTranslateLoader(http: HttpClient) {
+  console.log(environment.apiUrl + 'assets/i18n/', '.json')
+  return new TranslateHttpLoader(http, environment.apiUrl + 'assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -43,7 +52,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     ReactiveFormsModule,
     MatProgressSpinnerModule,
     MatSelectModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient]
+      }
+    }),
   ],
   providers:[
     { provide: MAT_DIALOG_DATA, useValue: {} },

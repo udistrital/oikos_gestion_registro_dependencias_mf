@@ -1,7 +1,7 @@
 <mat-card>
     <mat-card-content>
         <mat-card >
-            <mat-card-title class="titulo"> REGISTRO DEPENDENCIAS</mat-card-title> 
+            <mat-card-title class="titulo">{{ "REGISTRAR.TITULO" | translate }}</mat-card-title> 
             <mat-divider class="divider"></mat-divider>
             <mat-card-content>  
                 <mat-card>
@@ -9,57 +9,57 @@
                         <form [formGroup]="registroForm">
                             <div class="grid">
                                 <div class="left-column">
-                                    <p class="nombre-input">NOMBRE DEPENDENCIA 
+                                    <p class="nombre-input">{{ "FORMULARIO.NOMBRE_DEPENDENCIA" | translate }} 
                                         <button class="boton-ayuda">?   
                                             <span class="tooltip-text">
-                                                <p>El nombre de la dependencia debe ir en mayúsculas.</p>
-                                                <p>Sin tildes.</p>
-                                                <p>Debe ser global el nombre.</p>
+                                                <p>{{ "TOOLTIP.NOMBRE_DEPENDENCIA.PARTE_1" | translate }}</p>
+                                                <p>{{ "TOOLTIP.NOMBRE_DEPENDENCIA.PARTE_2" | translate }}</p>
+                                                <p>{{ "TOOLTIP.NOMBRE_DEPENDENCIA.PARTE_3_ALT" | translate }}</p>
                                                 <br>
-                                                <p>Ejemplo:</p>
-                                                <p>MODULO DE INVESTIGACION <span class="check">✔</span></p>
-                                                <p>MODULO DE INVESTIGACIÓN 1 AREA SOCIAL ❌</p>
+                                                <p>{{ "TOOLTIP.NOMBRE_DEPENDENCIA.PARTE_3" | translate }}</p>
+                                                <p>{{ "TOOLTIP.NOMBRE_DEPENDENCIA.PARTE_4" | translate }}<span class="check">✔</span></p>
+                                                <p>{{ "TOOLTIP.NOMBRE_DEPENDENCIA.PARTE_5" | translate }}</p>
                                             </span>
                                         </button> 
                                     </p>
                                     <input type="text" formControlName="nombre">
-                                    <p class="nombre-input">TELÉFONO ASOCIADO <button class="boton-ayuda">?   
+                                    <p class="nombre-input">{{ "FORMULARIO.TELEFONO_ASOCIADO" | translate }} <button class="boton-ayuda">?   
                                         <span class="tooltip-text">
-                                        <p>Incluir el número oficial de la dependencia.</p>
-                                        <p>Agregar las extensiones o decorativos necesarios.</p>
+                                        <p>{{ "TOOLTIP.TELEFONO.PARTE_1" | translate }}</p>
+                                        <p>{{ "TOOLTIP.TELEFONO.PARTE_2" | translate }}</p>
                                         <br>
-                                        <p>Ejemplo:</p>
-                                        <p>123456789 ext 24 apr 21 <span class="check">✔</span></p>
-                                        <p>123456789 - 1 -2 ❌</p>
+                                        <p>{{ "TOOLTIP.TELEFONO.PARTE_3" | translate }}</p>
+                                        <p>{{ "TOOLTIP.TELEFONO.PARTE_4" | translate }}<span class="check">✔</span></p>
+                                        <p>{{ "TOOLTIP.TELEFONO.PARTE_5" | translate }}</p>
                                         </span></button></p>
                                         <input type="text" formControlName="telefono">
                                 
-                                    <p class="nombre-input">CORREO INSTITUCIONAL <button class="boton-ayuda">?   
+                                    <p class="nombre-input">{{ "FORMULARIO.CORREO" | translate }}<button class="boton-ayuda">?   
                                         <span class="tooltip-text">
-                                        <p>No incluir correos personales.</p>
+                                        <p>{{ "TOOLTIP.CORREO.PARTE_1" | translate }}</p>
                                         <br>
-                                        <p>Ejemplo:</p>
-                                        <p>moduloinvestigacion@udistrital.edu.co <span class="check">✔</span></p>
-                                        <p>correopersonal@gmail.com ❌</p>
+                                        <p>{{ "TOOLTIP.CORREO.PARTE_2" | translate }}</p>
+                                        <p>{{ "TOOLTIP.CORREO.PARTE_3" | translate }}<span class="check">✔</span></p>
+                                        <p>{{ "TOOLTIP.CORREO.PARTE_4" | translate }}</p>
                                     </span></button></p>
                                     <input type="text" formControlName="correo">
                                 </div>
                                 <div class="right-column">
-                                    <p class="nombre-input">TIPO DEPENDENCIA</p>
+                                    <p class="nombre-input">{{ "FORMULARIO.TIPO_DEPENDENCIA" | translate }}</p>
                                     <mat-select formControlName="tipoDependencia" multiple>
                                         <mat-option *ngFor="let item of tiposDependencia" [value]="item">
                                             {{item.nombre}}
                                         </mat-option>
                                     </mat-select>
 
-                                    <p class="nombre-input">DEPENDENCIA ASOCIADA</p>
+                                    <p class="nombre-input">{{ "FORMULARIO.DEPENDENCIAS_ASOCIADA" | translate }}</p>
                                     <select  formControlName="dependenciaAsociada">
                                         <option> ... </option>
                                         <option *ngFor="let item of dependenciasAsociadas" [ngValue]="item">
                                             {{item.nombre}}
                                         </option>
                                     </select>
-                                    <button class="boton-accion" (click)="enviarDependencia()">REGISTRAR DEPENDENCIA</button>
+                                    <button class="boton-accion" (click)="enviarDependencia()">{{ "FORMULARIO.REGISTRAR" | translate }}</button>
                                 </div>
                             </div>
                         </form> 

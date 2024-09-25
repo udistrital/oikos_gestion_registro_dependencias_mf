@@ -6,6 +6,7 @@ import { Organigrama } from 'src/app/models/Organigrama.models';
 import { PopUpManager } from '../../../../managers/popUpManager'
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-organigrama-dialog',
@@ -49,7 +50,10 @@ export class OrganigramaDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<OrganigramaDialogComponent>,
     private oikosMidService: OikosMidService,
     private popUpManager: PopUpManager,
-  ) { }
+    private translate: TranslateService,
+  ) {
+    translate.setDefaultLang('es');
+  }
 
   ngOnInit(): void {
     this.cargar_arbol();
@@ -90,10 +94,11 @@ export class OrganigramaDialogComponent implements OnInit {
         }
       }
       Swal.close();
-      this.popUpManager.showSuccessAlert('Datos cargados con éxito');
+      
+      this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.BUSQUEDA'));
     }, (error) => {
       Swal.close();
-      this.popUpManager.showErrorAlert('Error al cargar los datos del organigrama');
+      this.popUpManager.showErrorAlert(this.translate.instant('ERROR.ORGANIGRAMA'));
     });
 }
 

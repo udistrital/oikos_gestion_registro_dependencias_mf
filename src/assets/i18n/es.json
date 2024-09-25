@@ -1,14 +1,100 @@
 {
-    "FORMULARIO":{
-        "TITULOS":{
-            "REGISTRO": "REGISTRO DEPENDENCIAS",
-            "GESTION": "GETSION DEPENDENCIAS"
+    "GESTION": {
+      "TITULO": "GESTIÓN DEPENDENCIAS",
+      "SUBTITULO": "BUSCAR DEPENDENCIAS",
+      "ORGANIGRAMA": "VER ORGANIGRAMAS"
+    },
+    "EDITAR":{
+        "TITULO": "EDITAR DEPENDENCIA"
+    },
+    "REGISTRAR":{
+      "TITULO":"REGISTRO DEPENDENCIAS"
+    },
+    "ORGANIGRAMA":{
+      "GENERAL":"ORGANIGRAMA GENERAL",
+      "ACADEMICO":"ORGANIGRAMA ACADÉMICO",
+      "ADMINISTRATIVO":"ORGANIGRAMA ADMINISTRATIVO"
+    },
+    "TOOLTIP": {
+      "ORGANIGRAMA": {
+        "PARTE_1": "• Botón para poder ver todos los",
+        "PARTE_2": "organigramas de la institución."
+      },
+      "NOMBRE_DEPENDENCIA": {
+        "PARTE_1": "• El nombre de la dependencia debe ir en mayúsculas.",
+        "PARTE_2": "• Sin tildes.",
+        "PARTE_3_ALT":"• Debe ser global el nombre.",
+        "PARTE_3": "Ejemplo:",
+        "PARTE_4": "MODULO DE INVESTIGACION ",
+        "PARTE_5": "MODULO DE INVESTIGACIÓN 1 AREA SOCIAL ❌"
+      },
+      "TELEFONO":{
+        "PARTE_1": "• Incluir el número oficial de la dependencia.",
+        "PARTE_2": "• Agregar las extensiones o decorativos necesarios.",
+        "PARTE_3": "Ejemplo:",
+        "PARTE_4": "123456789 ext 24 apr 21 ",
+        "PARTE_5": "123456789 - 1 -2 ❌"
+      },
+      "CORREO":{
+        "PARTE_1": "• No incluir correos personales.",
+        "PARTE_2": "Ejemplo:",
+        "PARTE_3": "moduloinvestigacion@udistrital.edu.co ",
+        "PARTE_4": "correopersonal@gmail.com ❌"
+      },
+      "FACULTAD": {
+        "PARTE_1": "• El nombre de la Facultad debe ir en mayúsculas.",
+        "PARTE_2": "• Sin tildes."
+      },
+      "VICERRECTORIA": {
+        "PARTE_1": "• El nombre de la Vicerrectoría debe ir en mayúsculas.",
+        "PARTE_2": "• Sin tildes."
+      }
+    },
+    "FORMULARIO": {
+      "NOMBRE_DEPENDENCIA": "NOMBRE DEPENDENCIA",
+      "TELEFONO_ASOCIADO": "TELÉFONO ASOCIADO",
+      "CORREO": "CORREO INSTITUCIONAL",
+      "TIPO_DEPENDENCIA": "TIPO DEPENDENCIA",
+      "DEPENDENCIAS_ASOCIADA": "DEPENDENCIA ASOCIADA",
+      "FACULTAD": "FACULTADES",
+      "VICERRECTORIA": "VICERRECTORÍA",
+      "ESTADO": "ESTADO",
+      "BUSCAR": "BUSCAR",
+      "EDITAR": "EDITAR DEPENDENCIA",
+      "REGISTRAR":"REGISTRAR DEPENDENCIA",
+      "ESTADO_OPCIONES": {
+        "ACTIVO": "ACTIVO",
+        "NO_ACTIVO": "NO ACTIVO"
+      }
+    },
+    "TABLA": {
+      "COLUMNAS": {
+        "NOMBRE": "NOMBRE",
+        "DEPENDENCIAS_ASOCIADAS": "DEPENDENCIAS ASOCIADAS",
+        "TIPO": "TIPO",
+        "ESTADO": "ESTADO",
+        "ACCIONES": "ACCIONES"
+      }
+    },
+    "EXITO": {
+        "BUSQUEDA": "Datos cargados con éxito",
+        "EDITAR": "Dependencia editada",
+        "REGISTRAR":"Dependencia creada"
+    },
+    "ERROR":{
+        "BUSQUEDA":{
+            "DATOS":"Error al buscar dependencias: Datos no disponibles",
+            "BUSQUEDA":"Error al buscar dependencias: "
         },
-        "INPUT_NOMBRE_DEPENDENCIA":"NOMBRE DEPENDENCIA",
-        "INPUT_TELEFONO_ASOCIADO":"TELEFONO ASOCIADO",
-        "INPUT_CORRE_INSTITUCIONAL":"CORREO INSTITUCIONAL",
-        "INPUT_TIPO_DEPENDENCIA":"TIPO DEPENDENCIA",
-        "INPUT_DEPENDENCIA_ASOCIADA":"DEPENDENCIA ASOCIADA",
-        "BUTTON_REGISTRAR_DEPENDENCIA": "REGISTRAR DEPENDENCIA"
+        "DESCONOCIDO":"Error desconocido",
+        "EDITAR": "Error al editar la dependencia",
+        "ORGANIGRAMA":"Error al cargar los datos del organigrama",
+        "REGISTRAR":"Error al crear la dependencia"
+    },
+    "ACCIONES": {
+      "EDITAR": "edit",
+      "ACEPTAR": "check",
+      "CANCELAR": "close"
     }
-}
+  }
+  
