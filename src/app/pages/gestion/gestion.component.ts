@@ -23,15 +23,16 @@ import Swal from 'sweetalert2/dist/sweetalert2.js';
 export class GestionComponent implements OnInit, AfterViewInit {
   @Input('normalform') normalform: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  
+
   tiposDependencia: Desplegables[] = [];
   facultades: Desplegables[] = [];
   vicerrectorias: Desplegables[] = [];
   mostrarTabla: boolean = false;
-  cargando: boolean = false; 
+  cargando: boolean = false;
   columnasBusqueda = signal<string[]>(["NOMBRE","DEPENDENCIA ASOCIADAS","TIPO","ESTADO","ACCIONES"]);
   gestionForm !:  FormGroup;
 
+  elementosBusqueda = signal<BusquedaGestion[]>([])
   datos = new MatTableDataSource<BusquedaGestion>();
 
   constructor(
@@ -186,7 +187,7 @@ export class GestionComponent implements OnInit, AfterViewInit {
 
   buscarDependencias() {
     const busqueda = this.construirBusqueda();  
-    this.popUpManager.showLoaderAlert();
+    this.popUpManager.showLoaderAlert("Obteniendo datos...");
     this.mostrarTabla = false;  
 
     this.oikosMidService.post("gestion_dependencias_mid/BuscarDependencia", busqueda).pipe(
@@ -198,22 +199,22 @@ export class GestionComponent implements OnInit, AfterViewInit {
             telefono: item.Dependencia.TelefonoDependencia,
             correo: item.Dependencia.CorreoElectronico,
             dependenciasAsociadas: {
-              id: item.DependenciaAsociada.Id,          
+              id: item.DependenciaAsociada.Id,
               nombre: item.DependenciaAsociada.Nombre
             },
             tipoDependencia: item.TipoDependencia.map((tipo: any) => ({
-              id: tipo.Id,          
-              nombre: tipo.Nombre   
+              id: tipo.Id,
+              nombre: tipo.Nombre
             })),
             estado: item.Estado ? 'ACTIVA' : 'NO ACTIVA',
           }));
-          
+
           this.datos = new MatTableDataSource<BusquedaGestion>(datosTransformados);
           setTimeout(() => { this.datos.paginator = this.paginator; }, 1000);
 
           Swal.close();
           this.popUpManager.showSuccessAlert('Datos cargados con éxito');
-          this.mostrarTabla = true;  
+          this.mostrarTabla = true;
         } else {
           Swal.close();
           this.popUpManager.showErrorAlert('Error al buscar dependencias: Datos no disponibles');
@@ -225,20 +226,10 @@ export class GestionComponent implements OnInit, AfterViewInit {
         this.popUpManager.showErrorAlert('Error al buscar dependencias: ' + (error.message || 'Error desconocido'));
         console.error('Error al buscar dependencias:', error);
         this.mostrarTabla = false;
-        return of(null);  
+        return of(null);
       })
     ).subscribe();
 }
-
-        this.cargando = false; 
-      },
-      (error) => {
-        console.error('Error al buscar dependencias', error);
-        this.cargando = false; 
-      }
-    );
-    this.mostrarTabla = true;
-  }
 
   /* Inicio de activar y desactivar dependencia */ 
 
@@ -264,15 +255,13 @@ export class GestionComponent implements OnInit, AfterViewInit {
           ? element.tipoDependencia.map((tipo: any) => ({ "Id": tipo.id }))
           : []
       }
-  
+
       const response: any = await this.oikosService.put("dependencia", dataActualizada).toPromise();
-      
       if (response && response.Id === dataActualizada.Id && response.Activo === dataActualizada.Activo) {
         this.popUpManager.showSuccessAlert("Dependencia activada");
       } else {
         this.popUpManager.showErrorAlert("Error al activar la dependencia");
       }
-      
     } catch (error) {
       this.popUpManager.showErrorAlert("Error al activar la dependencia: Error desconocido");
     }
@@ -296,24 +285,21 @@ export class GestionComponent implements OnInit, AfterViewInit {
           "Id": tipo.id
         }))
       }
-  
+
       const response: any = await this.oikosService.put("dependencia", dataActualizada).toPromise();
-      
+
       if (response && response.Id === dataActualizada.Id && response.Activo === dataActualizada.Activo) {
         this.popUpManager.showSuccessAlert("Dependencia desactivada");
       } else {
         this.popUpManager.showErrorAlert("Error al desactivar la dependencia");
       }
-      
     } catch (error) {
       this.popUpManager.showErrorAlert("Error al desactivar la dependencia: Error desconocido");
     }
   }
+  /* Fin de activar y desactivar dependencia */
 
-  /* Fin de activar y desactivar dependencia */ 
-  
   /* Inicio recarga tabla */
-
   public recargarTabla(): void {
     const busqueda = this.construirBusqueda();  // Mantén los filtros actuales
     this.cargando = true;
@@ -326,12 +312,12 @@ export class GestionComponent implements OnInit, AfterViewInit {
           telefono: item.Dependencia.TelefonoDependencia,
           correo: item.Dependencia.CorreoElectronico,
           dependenciasAsociadas: {
-            id: item.DependenciaAsociada.Id,          
+            id: item.DependenciaAsociada.Id,
             nombre: item.DependenciaAsociada.Nombre
           },
           tipoDependencia: item.TipoDependencia.map((tipo: any) => ({
-            id: tipo.Id,          
-            nombre: tipo.Nombre   
+            id: tipo.Id,
+            nombre: tipo.Nombre
           })),
           estado: item.Estado ? 'ACTIVA' : 'NO ACTIVA',
         }));

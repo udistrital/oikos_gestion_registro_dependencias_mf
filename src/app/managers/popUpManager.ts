@@ -35,15 +35,4 @@ export class PopUpManager {
             }
         });
     }
-    showLoaderAlert(){
-        Swal.fire({
-            title: 'Obteniendo datos...',
-            allowEscapeKey: false,
-            allowOutsideClick: false,
-            timer: 2000,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-    }
 }
