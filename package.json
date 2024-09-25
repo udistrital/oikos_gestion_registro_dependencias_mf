@@ -3,15 +3,16 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 4215",
+    "start": "ng serve --port 4202",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "prepare": "husky",
     "build:single-spa:gestion-registro-dependencias-mf": "ng build gestion-registro-dependencias-mf --configuration production",
-    "serve:single-spa:gestion-registro-dependencias-mf": "ng s --project gestion-registro-dependencias-mf --disable-host-check --port 4215 --live-reload false",
+    "serve:single-spa:gestion-registro-dependencias-mf": "ng s --project gestion-registro-dependencias-mf --disable-host-check --port 4202 --live-reload false",
     "build:prod": "ng build --progress --configuration=production",
-    "build:test": "ng build --progress --configuration=development"
+    "build:test": "ng build --progress --configuration=development",
+    "build:local": "ng build --progress --configuration=local"
   },
   "private": true,
   "dependencies": {

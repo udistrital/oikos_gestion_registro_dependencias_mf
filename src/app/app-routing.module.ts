@@ -15,6 +15,9 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [{ provide: APP_BASE_HREF, useValue: "" }],
+  providers: [ 
+    provideRouter(routes),
+    getSingleSpaExtraProviders(),
+    provideHttpClient(withFetch()) ]
 })
 export class AppRoutingModule { }
