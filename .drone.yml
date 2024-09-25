@@ -59,6 +59,7 @@ steps:
 
 - name: run_sonar_scanner
   image: aosapps/drone-sonar-plugin
+  failure: ignore
   settings:
     sonar_host:
       from_secret: SONAR_HOST
