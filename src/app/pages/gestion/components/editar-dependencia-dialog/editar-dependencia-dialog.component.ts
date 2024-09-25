@@ -9,6 +9,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { PopUpManager } from '../../../../managers/popUpManager'
 import { of } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import { Output, EventEmitter } from '@angular/core';
 
 
 
@@ -121,13 +122,16 @@ export class EditarDependenciaDialogComponent {
     };
   }
   
-  
+  @Output() dependenciaActualizada = new EventEmitter<void>();
+
   editarDependencia(){
+    this.popUpManager.showLoaderAlert("Actualizando");
     const editar = this.construirEdicion();
     this.oikosMidService.post("gestion_dependencias_mid/EditarDependencia", editar).pipe(
       tap((res: any) => {
           if (res.Success) {
               this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.EDITAR'));
+              this.dependenciaActualizada.emit();
           } else {
               this.popUpManager.showErrorAlert(this.translate.instant('ERROR.EDITAR'));
           }

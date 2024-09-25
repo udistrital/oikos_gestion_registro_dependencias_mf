@@ -29,8 +29,10 @@
 }
 
 .boton-organigrama{
-    background-color: #F8CECC;
-    color: #8C1A18; 
+    /*background-color: #F8CECC;
+    color: #8C1A18; */
+    background-color: #731514;
+    color: #FFFFFF;
     border: 1px solid #8C1A18; 
     border-radius: 5px; 
     cursor: pointer;
@@ -92,7 +94,9 @@
 }
 
 .titulo-tabla th {
-    background-color: #F8CECC; 
+    /*background-color: #F8CECC; */
+    background-color: #731514;
+    color: #FFFFFF;
     padding: 10px;
     text-align: center;
     border: 1px solid #000; 

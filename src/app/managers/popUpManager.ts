@@ -13,20 +13,20 @@ export class PopUpManager {
             icon: 'success',
             title: 'Operación exitosa',
             text: text,
-            confirmButtonText: 'aceptar',
+            confirmButtonText: 'Aceptar',
         });
     }
     showErrorAlert(text: string) {
         Swal.fire({
             icon: 'error',
-            title: 'error',
+            title: 'Error',
             text: text,
-            confirmButtonText: 'aceptar',
+            confirmButtonText: 'Aceptar',
         });
     }
-    showLoaderAlert(){
+    showLoaderAlert(text: string){
         Swal.fire({
-            title: 'Obteniendo datos...',
+            title: text,
             allowEscapeKey: false,
             allowOutsideClick: false,
             timer: 2000,

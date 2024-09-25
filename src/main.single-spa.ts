@@ -7,7 +7,7 @@ import { singleSpaAngular, getSingleSpaExtraProviders } from 'single-spa-angular
 
 
 import { AppModule } from './app/app.module';
-import { environment } from './environments/environment.development';
+import { environment } from './environments/environment';
 import { singleSpaPropsSubject } from './single-spa/single-spa-props';
 
 if (environment.production) {
@@ -19,7 +19,7 @@ const lifecycles = singleSpaAngular({
     singleSpaPropsSubject.next(singleSpaProps);
     return platformBrowserDynamic(getSingleSpaExtraProviders()).bootstrapModule(AppModule);
   },
-  template: '<oikos-registroGestion-mf />',
+  template: '<registro-gestion />',
   Router,
   NavigationStart,
   NgZone,

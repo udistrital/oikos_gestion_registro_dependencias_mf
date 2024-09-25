@@ -10,7 +10,9 @@ import { OikosService } from '../../services/oikos.service';
 import { OikosMidService } from '../../services/oikos_mid.service';
 import { Desplegables } from 'src/app/models/desplegables.models';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { PopUpManager } from '../../managers/popUpManager'
+import { PopUpManager } from '../../managers/popUpManager';
+import { catchError, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { of } from 'rxjs';
@@ -25,15 +27,16 @@ import { TranslateService } from '@ngx-translate/core';
 export class GestionComponent implements OnInit, AfterViewInit {
   @Input('normalform') normalform: any;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  
+
   tiposDependencia: Desplegables[] = [];
   facultades: Desplegables[] = [];
   vicerrectorias: Desplegables[] = [];
   mostrarTabla: boolean = false;
-  cargando: boolean = false; 
+  cargando: boolean = false;
   columnasBusqueda = signal<string[]>(["NOMBRE","DEPENDENCIA ASOCIADAS","TIPO","ESTADO","ACCIONES"]);
   gestionForm !:  FormGroup;
 
+  elementosBusqueda = signal<BusquedaGestion[]>([])
   datos = new MatTableDataSource<BusquedaGestion>();
 
   constructor(
@@ -147,6 +150,10 @@ export class GestionComponent implements OnInit, AfterViewInit {
       maxHeight: '65vh',
       data:element
     });
+
+    dialogRef.componentInstance.dependenciaActualizada.subscribe(() => {
+      this.recargarTabla();  
+    });
   }
 
   abrirDialogOrganigrama() {
@@ -186,7 +193,7 @@ export class GestionComponent implements OnInit, AfterViewInit {
 
   buscarDependencias() {
     const busqueda = this.construirBusqueda();  
-    this.popUpManager.showLoaderAlert();
+    this.popUpManager.showLoaderAlert("Obteniendo datos...");
     this.mostrarTabla = false;  
 
     this.oikosMidService.post("gestion_dependencias_mid/BuscarDependencia", busqueda).pipe(
@@ -198,16 +205,16 @@ export class GestionComponent implements OnInit, AfterViewInit {
             telefono: item.Dependencia.TelefonoDependencia,
             correo: item.Dependencia.CorreoElectronico,
             dependenciasAsociadas: {
-              id: item.DependenciaAsociada.Id,          
+              id: item.DependenciaAsociada.Id,
               nombre: item.DependenciaAsociada.Nombre
             },
             tipoDependencia: item.TipoDependencia.map((tipo: any) => ({
-              id: tipo.Id,          
-              nombre: tipo.Nombre   
+              id: tipo.Id,
+              nombre: tipo.Nombre
             })),
             estado: item.Estado ? 'ACTIVA' : 'NO ACTIVA',
           }));
-          
+
           this.datos = new MatTableDataSource<BusquedaGestion>(datosTransformados);
           setTimeout(() => { this.datos.paginator = this.paginator; }, 1000);
 
@@ -225,9 +232,117 @@ export class GestionComponent implements OnInit, AfterViewInit {
         this.popUpManager.showErrorAlert(this.translate.instant('ERROR.BUSQUEDA.BUSQUEDA') + (error.message || this.translate.instant('ERROR.DESCONOCIDO')));
         console.error('Error al buscar dependencias:', error);
         this.mostrarTabla = false;
-        return of(null);  
+        return of(null);
       })
     ).subscribe();
 }
-  
+
+  /* Inicio de activar y desactivar dependencia */ 
+
+  consultarDependencia(id: number): Promise<any> {
+    return this.oikosService.get('dependencia/' + id).toPromise();
+  }
+
+  async activarDependencia(element: any) {
+    const fechaActual = new Date().toISOString();
+
+    try {
+      const dataConsulta: any = await this.consultarDependencia(element.id);
+
+      const dataActualizada = {
+        "Id": dataConsulta.Id,
+        "Nombre": dataConsulta.Nombre,
+        "TelefonoDependencia": dataConsulta.TelefonoDependencia,
+        "CorreoElectronico": dataConsulta.CorreoElectronico,
+        "Activo": true,
+        "FechaCreacion": dataConsulta.FechaCreacion,
+        "FechaModificacion": fechaActual,
+        "DependenciaTipoDependencia": element.tipoDependencia 
+          ? element.tipoDependencia.map((tipo: any) => ({ "Id": tipo.id }))
+          : []
+      }
+
+      const response: any = await this.oikosService.put("dependencia", dataActualizada).toPromise();
+      if (response && response.Id === dataActualizada.Id && response.Activo === dataActualizada.Activo) {
+        this.popUpManager.showSuccessAlert("Dependencia activada");
+      } else {
+        this.popUpManager.showErrorAlert("Error al activar la dependencia");
+      }
+    } catch (error) {
+      this.popUpManager.showErrorAlert("Error al activar la dependencia: Error desconocido");
+    }
+  }
+
+  async desactivarDependencia(element: any) {
+    const fechaActual = new Date().toISOString();
+
+    try {
+      const dataConsulta: any = await this.consultarDependencia(element.id);
+
+      const dataActualizada = {
+        "Id": dataConsulta.Id,
+        "Nombre": dataConsulta.Nombre,
+        "TelefonoDependencia": dataConsulta.TelefonoDependencia,
+        "CorreoElectronico": dataConsulta.CorreoElectronico,
+        "Activo": false,
+        "FechaCreacion": dataConsulta.FechaCreacion,
+        "FechaModificacion": fechaActual,
+        "DependenciaTipoDependencia": element.tipoDependencia?.map((tipo: any) => ({
+          "Id": tipo.id
+        }))
+      }
+
+      const response: any = await this.oikosService.put("dependencia", dataActualizada).toPromise();
+
+      if (response && response.Id === dataActualizada.Id && response.Activo === dataActualizada.Activo) {
+        this.popUpManager.showSuccessAlert("Dependencia desactivada");
+      } else {
+        this.popUpManager.showErrorAlert("Error al desactivar la dependencia");
+      }
+    } catch (error) {
+      this.popUpManager.showErrorAlert("Error al desactivar la dependencia: Error desconocido");
+    }
+  }
+  /* Fin de activar y desactivar dependencia */
+
+  /* Inicio recarga tabla */
+  public recargarTabla(): void {
+    const busqueda = this.construirBusqueda();  // Mantén los filtros actuales
+    this.cargando = true;
+
+    this.oikosMidService.post("gestion_dependencias_mid/BuscarDependencia", busqueda).subscribe(
+      (res: any) => {
+        const datosTransformados = res.Data.map((item: any) => ({
+          id: item.Dependencia.Id,
+          nombre: item.Dependencia.Nombre,
+          telefono: item.Dependencia.TelefonoDependencia,
+          correo: item.Dependencia.CorreoElectronico,
+          dependenciasAsociadas: {
+            id: item.DependenciaAsociada.Id,
+            nombre: item.DependenciaAsociada.Nombre
+          },
+          tipoDependencia: item.TipoDependencia.map((tipo: any) => ({
+            id: tipo.Id,
+            nombre: tipo.Nombre
+          })),
+          estado: item.Estado ? 'ACTIVA' : 'NO ACTIVA',
+        }));
+
+        this.elementosBusqueda.set(datosTransformados);
+        this.datos.data = this.elementosBusqueda();
+
+        if (this.paginator) {
+          this.datos.paginator = this.paginator;
+        }
+
+        this.cargando = false;
+      },
+      (error) => {
+        console.error('Error al buscar dependencias', error);
+        this.cargando = false;
+      }
+    );
+  }
+
+  /* Fin recarga tabla */
 }
