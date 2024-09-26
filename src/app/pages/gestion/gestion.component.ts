@@ -15,8 +15,6 @@ import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
-import { of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
