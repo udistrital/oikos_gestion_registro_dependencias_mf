@@ -1,23 +1,27 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, provideRouter } from '@angular/router';
-import { getSingleSpaExtraProviders } from 'single-spa-angular';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { RouterModule, Routes } from '@angular/router';
+import { RegistroComponent } from './pages/registro/registro.component';
+import { GestionComponent } from './pages/gestion/gestion.component';
 
 const routes: Routes = [
   {
-    path: '',
-    loadChildren: () => import('./pages/pages.module')
-      .then(m => m.PagesModule),
+    path: "registro",
+    component: RegistroComponent
   },
+  {
+    path: "gestion",
+    component: GestionComponent
+  },
+  {
+    path: "**",
+    redirectTo: "registro"
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [ 
-    provideRouter(routes),
-    getSingleSpaExtraProviders(),
-    provideHttpClient(withFetch()) ]
+  providers: [{ provide: APP_BASE_HREF, useValue: "/"}]
 })
 export class AppRoutingModule { }
