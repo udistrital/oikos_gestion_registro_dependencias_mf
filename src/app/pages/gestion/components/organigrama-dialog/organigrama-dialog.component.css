@@ -24,8 +24,10 @@
 }
 
 .titulo-organigrama{
-    background-color: #F8CECC;
-    color: #8C1A18;
+    /*background-color: #F8CECC;
+    color: #8C1A18;*/
+    background-color: #731514;
+    color: #FFFFFF;
     padding: 10px;
     text-align: center;
     display: flex;
@@ -93,3 +95,4 @@
 mat-card-content{
     overflow: auto;
 }
+

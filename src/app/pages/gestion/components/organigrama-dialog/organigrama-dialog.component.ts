@@ -3,6 +3,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { TreeNode } from 'primeng/api';
 import { OikosMidService } from '../../../../services/oikos_mid.service';
 import { Organigrama } from 'src/app/models/Organigrama.models';
+import { PopUpManager } from '../../../../managers/popUpManager'
+// @ts-ignore
+import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-organigrama-dialog',
@@ -45,7 +49,11 @@ export class OrganigramaDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<OrganigramaDialogComponent>,
     private oikosMidService: OikosMidService,
-  ) { }
+    private popUpManager: PopUpManager,
+    private translate: TranslateService,
+  ) {
+    translate.setDefaultLang('es');
+  }
 
   ngOnInit(): void {
     this.cargar_arbol();
@@ -56,6 +64,7 @@ export class OrganigramaDialogComponent implements OnInit {
   }
 
   cargar_arbol() {
+    this.popUpManager.showLoaderAlert("Obteniendo datos...");
     this.oikosMidService.get("gestion_dependencias_mid/Organigramas").subscribe((res: any) => {
       this.dependencias = res.Data.General;
       for (let key in this.dependencias) {
@@ -65,6 +74,7 @@ export class OrganigramaDialogComponent implements OnInit {
           this.general.push(treeNodes);
         }
       }
+
       this.dependencias = res.Data.Academico;
       for (let key in this.dependencias) {
         if (this.dependencias.hasOwnProperty(key)) {
@@ -73,6 +83,7 @@ export class OrganigramaDialogComponent implements OnInit {
           this.academico.push(treeNodes);
         }
       }
+
       this.dependencias = res.Data.Administrativo;
       for (let key in this.dependencias) {
         if (this.dependencias.hasOwnProperty(key)) {
@@ -81,8 +92,15 @@ export class OrganigramaDialogComponent implements OnInit {
           this.administrativo.push(treeNodes);
         }
       }
+      Swal.close();
+      
+      this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.BUSQUEDA'));
+    }, (error) => {
+      Swal.close();
+      this.popUpManager.showErrorAlert(this.translate.instant('ERROR.ORGANIGRAMA'));
     });
-  }
+}
+
 
   crear_arbol(dependencia: Organigrama): TreeNode[] {
     const tipo_dependencia_asociado = this.getTipoDependencia(dependencia.Tipo ? dependencia.Tipo[0] : '');
@@ -101,7 +119,7 @@ export class OrganigramaDialogComponent implements OnInit {
 
   crear_arbol_hijos(hijos: Organigrama[]): TreeNode[] {
     return hijos.map(hijo => {
-      return this.crear_arbol(hijo)[0]; // Since crear_arbol returns an array, we take the first element
+      return this.crear_arbol(hijo)[0]; 
     });
   }
 
