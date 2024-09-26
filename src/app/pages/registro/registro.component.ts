@@ -7,7 +7,7 @@ import { Desplegables } from 'src/app/models/desplegables.models';
 import { MatDialogRef } from '@angular/material/dialog';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-registro',
@@ -31,7 +31,7 @@ export class RegistroComponent implements OnInit{
     public dialogRef: MatDialogRef<RegistroComponent>,
     private translate: TranslateService,
   ){
-    translate.setDefaultLang('es');
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {})
     this.cargarTiposDependencia();
     this.cargarDependenciasAsociadas();
   }
