@@ -31,7 +31,9 @@ import { OrganigramaDialogComponent } from './pages/gestion/components/organigra
 import { EditarDependenciaDialogComponent } from './pages/gestion/components/editar-dependencia-dialog/editar-dependencia-dialog.component';
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, environment.apiUrl + 'assets/i18n/', '.json');
+  console.log("environment ", environment)
+  console.log(environment.apiUrl + 'assets/i19n/', '.json')
+  return new TranslateHttpLoader(http, environment.apiUrl + 'assets/i19n/', '.json');
 }
 
 @NgModule({
