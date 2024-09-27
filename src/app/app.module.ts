@@ -33,7 +33,7 @@ import { EditarDependenciaDialogComponent } from './pages/gestion/components/edi
 export function createTranslateLoader(http: HttpClient) {
   console.log("environment ", environment)
   console.log(environment.apiUrl + 'assets/i19n/', '.json')
-  return new TranslateHttpLoader(http, environment.apiUrl + 'assets/i19n/', '.json');
+  return new TranslateHttpLoader(http, environment.apiUrl + 'assets/i18n/', '.json');
 }
 
 @NgModule({
