@@ -196,22 +196,24 @@ export class GestionComponent implements OnInit, AfterViewInit {
 
     this.oikosMidService.post("gestion_dependencias_mid/BuscarDependencia", busqueda).pipe(
       tap((res: any) => {
+        console.log("RES ", res)
         if (res && res.Data) {
           const datosTransformados = res.Data.map((item: any) => ({
             id: item.Dependencia.Id,
             nombre: item.Dependencia.Nombre,
             telefono: item.Dependencia.TelefonoDependencia,
             correo: item.Dependencia.CorreoElectronico,
-            dependenciasAsociadas: {
+            dependenciasAsociadas: item.DependenciaAsociada ? {
               id: item.DependenciaAsociada.Id,
               nombre: item.DependenciaAsociada.Nombre
-            },
+            }: null,
             tipoDependencia: item.TipoDependencia.map((tipo: any) => ({
               id: tipo.Id,
               nombre: tipo.Nombre
             })),
             estado: item.Estado ? 'ACTIVA' : 'NO ACTIVA',
           }));
+          console.log(datosTransformados)
 
           this.datos = new MatTableDataSource<BusquedaGestion>(datosTransformados);
           setTimeout(() => { this.datos.paginator = this.paginator; }, 1000);
