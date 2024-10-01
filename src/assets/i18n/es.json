@@ -48,6 +48,11 @@
       "VICERRECTORIA": {
         "PARTE_1": "• El nombre de la Vicerrectoría debe ir en mayúsculas.",
         "PARTE_2": "• Sin tildes."
+      },
+      "ACCIONES":{
+        "EDITAR":"Editar Dependencia",
+        "ACTIVAR":"Activar Dependencia",
+        "DESACTIVAR":"Desactivar Dependencia"
       }
     },
     "FORMULARIO": {
