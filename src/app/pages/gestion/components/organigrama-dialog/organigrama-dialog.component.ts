@@ -64,7 +64,7 @@ export class OrganigramaDialogComponent implements OnInit {
   }
 
   cargar_arbol() {
-    this.popUpManager.showLoaderAlert("Obteniendo datos...");
+    this.popUpManager.showLoaderAlert(this.translate.instant('CARGA.BUSQUEDA'));
     this.oikosMidService.get("gestion_dependencias_mid/Organigramas").subscribe((res: any) => {
       this.dependencias = res.Data.General;
       for (let key in this.dependencias) {
