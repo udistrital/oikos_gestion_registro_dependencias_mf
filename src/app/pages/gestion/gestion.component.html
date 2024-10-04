@@ -103,11 +103,11 @@
                           <mat-icon class="icono-rojo" (click)="abrirDialogEditarDependencia(element)">{{ "ACCIONES.EDITAR" | translate }}<span class="tooltip tooltip-bottom">{{ "TOOLTIP.ACCIONES.EDITAR" | translate }}</span>
                           </mat-icon>
                         </div>
-                        <div class="boton-acciones">
-                          <mat-icon class="icono-rojo">{{ "ACCIONES.ACEPTAR" | translate }}<span class="tooltip tooltip-bottom">{{ "TOOLTIP.ACCIONES.ACTIVAR" | translate }}</span></mat-icon>
+                        <div class="boton-acciones" *ngIf="element.estado === 'NO ACTIVA'">
+                          <mat-icon class="icono-rojo" (click)="activarDependencia(element)" >{{ "ACCIONES.ACEPTAR" | translate }}<span class="tooltip tooltip-bottom">{{ "TOOLTIP.ACCIONES.ACTIVAR" | translate }}</span></mat-icon>
                         </div>
-                        <div class="boton-acciones">
-                          <mat-icon class="icono-rojo">{{ "ACCIONES.CANCELAR" | translate }}<span class="tooltip tooltip-bottom">{{ "TOOLTIP.ACCIONES.DESACTIVAR" | translate }}</span></mat-icon>
+                        <div class="boton-acciones" *ngIf="element.estado === 'ACTIVA'">
+                          <mat-icon class="icono-rojo" (click)="desactivarDependencia(element)">{{ "ACCIONES.CANCELAR" | translate }}<span class="tooltip tooltip-bottom">{{ "TOOLTIP.ACCIONES.DESACTIVAR" | translate }}</span></mat-icon>
                         </div>
                       </span>
                     </td>
