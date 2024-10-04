@@ -191,7 +191,7 @@ export class GestionComponent implements OnInit, AfterViewInit {
 
   buscarDependencias() {
     const busqueda = this.construirBusqueda();  
-    this.popUpManager.showLoaderAlert("Obteniendo datos...");
+    this.popUpManager.showLoaderAlert(this.translate.instant('CARGA.BUSQUEDA'));
     this.mostrarTabla = false;  
 
     this.oikosMidService.post("gestion_dependencias_mid/BuscarDependencia", busqueda).pipe(
@@ -242,6 +242,7 @@ export class GestionComponent implements OnInit, AfterViewInit {
   }
 
   async activarDependencia(element: any) {
+    this.popUpManager.showLoaderAlert(this.translate.instant('CARGA.ACTIVAR'));
     const fechaActual = new Date().toISOString();
 
     try {
@@ -262,16 +263,20 @@ export class GestionComponent implements OnInit, AfterViewInit {
 
       const response: any = await this.oikosService.put("dependencia", dataActualizada).toPromise();
       if (response && response.Id === dataActualizada.Id && response.Activo === dataActualizada.Activo) {
-        this.popUpManager.showSuccessAlert("Dependencia activada");
+        Swal.close();
+        this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.ACTIVAR'));
       } else {
-        this.popUpManager.showErrorAlert("Error al activar la dependencia");
+        Swal.close();
+        this.popUpManager.showErrorAlert(this.translate.instant('ERROR.ACTIVAR'));
       }
     } catch (error) {
-      this.popUpManager.showErrorAlert("Error al activar la dependencia: Error desconocido");
+      Swal.close();
+      this.popUpManager.showErrorAlert(this.translate.instant('ERROR.ACTIVAR') + ":" + this.translate.instant('ERROR.DESCONOCIDO'));
     }
   }
 
   async desactivarDependencia(element: any) {
+    this.popUpManager.showLoaderAlert(this.translate.instant('CARGA.DESACTIVAR'));
     const fechaActual = new Date().toISOString();
 
     try {
@@ -293,12 +298,12 @@ export class GestionComponent implements OnInit, AfterViewInit {
       const response: any = await this.oikosService.put("dependencia", dataActualizada).toPromise();
 
       if (response && response.Id === dataActualizada.Id && response.Activo === dataActualizada.Activo) {
-        this.popUpManager.showSuccessAlert("Dependencia desactivada");
+        this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.DESACTIVAR'));
       } else {
-        this.popUpManager.showErrorAlert("Error al desactivar la dependencia");
+        this.popUpManager.showErrorAlert(this.translate.instant('ERROR.DESACTIVAR'));
       }
     } catch (error) {
-      this.popUpManager.showErrorAlert("Error al desactivar la dependencia: Error desconocido");
+      this.popUpManager.showErrorAlert(this.translate.instant('ERROR.DESACTIVAR') + ":" + this.translate.instant('ERROR.DESCONOCIDO'));
     }
   }
   /* Fin de activar y desactivar dependencia */
