@@ -46,7 +46,6 @@ export class EditarDependenciaDialogComponent {
       validators: [Validators.required]
     })
   });
-  
 
   constructor(
     public dialogRef: MatDialogRef<EditarDependenciaDialogComponent>,
