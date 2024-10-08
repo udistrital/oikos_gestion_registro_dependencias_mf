@@ -11,7 +11,7 @@ import { OikosMidService } from '../../services/oikos_mid.service';
 import { Desplegables } from 'src/app/models/desplegables.models';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PopUpManager } from '../../managers/popUpManager';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
@@ -180,25 +180,53 @@ export class GestionComponent implements OnInit, AfterViewInit {
       busqueda.VicerrectoriaId = this.gestionForm.value.vicerrectoria.id;
     }
 
-    if (this.gestionForm.value.estado !== '...') {
-      busqueda.BusquedaEstado = {
-        Estado: this.gestionForm.value.estado === "ACTIVO"
-      };
+    if (this.gestionForm.value.estado) {
+      if ( this.gestionForm.value.estado != '...'){
+        busqueda.BusquedaEstado = {
+          Estado: this.gestionForm.value.estado === "ACTIVO"
+        };
+      }
     }
-
     return busqueda;
   }
 
   buscarDependencias() {
-    const busqueda = this.construirBusqueda();  
+    const busqueda = this.construirBusqueda();
+    if (Object.keys(busqueda).length !== 0) {
+      this.busqueda(busqueda).then((resultadosParciales) => {
+        this.procesarResultados(resultadosParciales);
+      });
+    } else {
+      
+      const busquedaActiva = {
+        BusquedaEstado:{
+          Estado: true
+        }
+      };
+      const busquedaInactiva = {
+        BusquedaEstado:{
+          Estado: false
+        }
+      };
+      console.log("entra a busqueda total")
+      this.busqueda(busquedaActiva).then((resultadosActivos) => {
+      this.busqueda(busquedaInactiva).then((resultadosInactivos) => {
+        const resultadosTotales = [...resultadosActivos, ...resultadosInactivos];
+        this.procesarResultados(resultadosTotales);
+      });
+      });
+    }
+      
+  }
+
+  busqueda(busqueda: any = {}): Promise<any[]>{
     this.popUpManager.showLoaderAlert(this.translate.instant('CARGA.BUSQUEDA'));
     this.mostrarTabla = false;  
 
-    this.oikosMidService.post("gestion_dependencias_mid/BuscarDependencia", busqueda).pipe(
-      tap((res: any) => {
-        console.log("RES ", res)
+    return this.oikosMidService.post("gestion_dependencias_mid/BuscarDependencia", busqueda).pipe(
+      map((res: any) => {
         if (res && res.Data) {
-          const datosTransformados = res.Data.map((item: any) => ({
+          return res.Data.map((item: any) => ({
             id: item.Dependencia.Id,
             nombre: item.Dependencia.Nombre,
             telefono: item.Dependencia.TelefonoDependencia,
@@ -213,29 +241,31 @@ export class GestionComponent implements OnInit, AfterViewInit {
             })),
             estado: item.Estado ? 'ACTIVA' : 'NO ACTIVA',
           }));
-          console.log(datosTransformados)
-
-          this.datos = new MatTableDataSource<BusquedaGestion>(datosTransformados);
-          setTimeout(() => { this.datos.paginator = this.paginator; }, 1000);
-
-          Swal.close();
-          this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.BUSQUEDA'));
-          this.mostrarTabla = true;  
         } else {
-          Swal.close();
-          this.popUpManager.showErrorAlert(this.translate.instant('ERROR.BUSQUEDA.DATOS'));
-          this.mostrarTabla = false;
+          return [];
         }
       }),
       catchError((error) => {
         Swal.close();
         this.popUpManager.showErrorAlert(this.translate.instant('ERROR.BUSQUEDA.BUSQUEDA') + (error.message || this.translate.instant('ERROR.DESCONOCIDO')));
-        console.error('Error al buscar dependencias:', error);
         this.mostrarTabla = false;
-        return of(null);
+        return []
       })
-    ).subscribe();
-}
+    ).toPromise() as Promise<any[]>;
+  }
+
+
+  procesarResultados(resultados: any[]) {
+    if (resultados.length > 0) {
+      this.datos = new MatTableDataSource<BusquedaGestion>(resultados);
+      setTimeout(() => { this.datos.paginator = this.paginator; }, 1000);
+      this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.BUSQUEDA'));
+      this.mostrarTabla = true;  
+    } else {
+      this.popUpManager.showErrorAlert(this.translate.instant('ERROR.BUSQUEDA.DATOS'));
+      this.mostrarTabla = false;
+    }
+  }
 
   /* Inicio de activar y desactivar dependencia */ 
 
