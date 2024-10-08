@@ -29,8 +29,6 @@
 }
 
 .boton-organigrama{
-    /*background-color: #F8CECC;
-    color: #8C1A18; */
     background-color: #731514;
     color: #FFFFFF;
     border: 1px solid #8C1A18; 
@@ -51,32 +49,6 @@
     position: relative;
 }
 
-.tooltip-text-organigrama {
-    font-family: Helvetica;
-    width: max-content;
-    background-color: #FFF2CC; 
-    border: 1px solid #D6B656; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    border-radius: 6px;
-    padding: 10px;
-    position: absolute;
-    z-index: 1; 
-    font-size: 14px; 
-    line-height: 1.5;
-    white-space: pre-wrap;
-    text-align: left;
-    opacity: 0;
-    visibility: hidden;
-    top: calc(100% + 5px);
-    left: calc(-100% + 5%);    
-    transform: translateX(-50%);
-    transition: opacity 0.3s;
-}
-
-.boton-ayuda:hover .tooltip-text-organigrama{
-    visibility: visible;
-    opacity: 1;
-}
 
 .boton-accion{
     margin-left: 0px;
@@ -90,11 +62,11 @@
     border-collapse: collapse;
     border-radius: 3px; 
     font-family: Helvetica, Arial, sans-serif;
-    overflow: hidden; 
+    overflow: visible; 
+    table-layout: auto;
 }
 
 .titulo-tabla th {
-    /*background-color: #F8CECC; */
     background-color: #731514;
     color: #FFFFFF;
     padding: 10px;
@@ -109,11 +81,17 @@
     padding: 10px;
     text-align: center;
     border: 1px solid #000; 
+    position: relative;
+    overflow: visible;
+    position: relative;
+    overflow: visible;
 }
 
 .contenido-celda {
     font-family: Helvetica
 }
+
+
 th.mat-sort-header-sorted {
     color: black;
 }
@@ -126,4 +104,33 @@ th.mat-sort-header-sorted {
     width: auto;
     height: auto;
     cursor: pointer;
+}
+
+.tooltip-bottom {
+    z-index: 1000;
+}
+
+.boton-acciones{
+    position: relative;
+    display: inline-block;
+}
+
+.boton-acciones:hover .tooltip{
+    visibility: visible;
+    opacity: 1;
+}
+
+
+.tooltip-bottom {
+    z-index: 1000;
+}
+
+.boton-acciones{
+    position: relative;
+    display: inline-block;
+}
+
+.boton-acciones:hover .tooltip{
+    visibility: visible;
+    opacity: 1;
 }

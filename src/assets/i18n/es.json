@@ -48,6 +48,11 @@
       "VICERRECTORIA": {
         "PARTE_1": "• El nombre de la Vicerrectoría debe ir en mayúsculas.",
         "PARTE_2": "• Sin tildes."
+      },
+      "ACCIONES":{
+        "EDITAR":"Editar Dependencia",
+        "ACTIVAR":"Activar Dependencia",
+        "DESACTIVAR":"Desactivar Dependencia"
       }
     },
     "FORMULARIO": {
@@ -79,7 +84,9 @@
     "EXITO": {
         "BUSQUEDA": "Datos cargados con éxito",
         "EDITAR": "Dependencia editada",
-        "REGISTRAR":"Dependencia creada"
+        "REGISTRAR":"Dependencia creada",
+        "ACTIVAR":"Dependencia activada",
+        "DESACTIVAR":"Dependencia desactivada"
     },
     "ERROR":{
         "BUSQUEDA":{
@@ -89,12 +96,21 @@
         "DESCONOCIDO":"Error desconocido",
         "EDITAR": "Error al editar la dependencia",
         "ORGANIGRAMA":"Error al cargar los datos del organigrama",
-        "REGISTRAR":"Error al crear la dependencia"
+        "REGISTRAR":"Error al crear la dependencia",
+        "ACTIVAR":"Error al activar la dependencia",
+        "DESACTIVAR":"Error al desactivar la dependencia"
     },
     "ACCIONES": {
       "EDITAR": "edit",
       "ACEPTAR": "check",
       "CANCELAR": "close"
+    },
+    "CARGA":{
+      "REGISTRO":"Creando Dependencia...",
+      "BUSQUEDA":"Obteniendo datos...",
+      "ACTIVAR":"Activando Dependencia...",
+      "DESACTIVAR":"Desactivando Dependencia...",
+      "EDITAR":"Editando datos..."
     }
   }
   

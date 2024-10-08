@@ -124,7 +124,7 @@ export class EditarDependenciaDialogComponent {
   @Output() dependenciaActualizada = new EventEmitter<void>();
 
   editarDependencia(){
-    this.popUpManager.showLoaderAlert("Actualizando");
+    this.popUpManager.showLoaderAlert(this.translate.instant('CARGA.EDITAR'));
     const editar = this.construirEdicion();
     this.oikosMidService.post("gestion_dependencias_mid/EditarDependencia", editar).pipe(
       tap((res: any) => {

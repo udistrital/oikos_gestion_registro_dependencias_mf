@@ -7,6 +7,8 @@ import { Desplegables } from 'src/app/models/desplegables.models';
 import { MatDialogRef } from '@angular/material/dialog';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+// @ts-ignore
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -108,17 +110,21 @@ export class RegistroComponent implements OnInit{
 
 
   enviarDependencia(){
+    this.popUpManager.showLoaderAlert(this.translate.instant('CARGA.REGISTRO'));
     const registro = this.construirObjetoRegistro();
     console.log(registro)
     this.oikosMidService.post("gestion_dependencias_mid/RegistrarDependencia", registro).pipe(
       tap((res: any) => {
           if (res.Success) {
+              Swal.close();
               this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.REGISTRAR'));
           } else {
+              Swal.close();
               this.popUpManager.showErrorAlert(this.translate.instant('ERROR.REGISTRAR'));
           }
       }),
       catchError((error) => {
+          Swal.close();
           console.error('Error en la solicitud:', error);
           this.popUpManager.showErrorAlert(this.translate.instant('ERROR.REGISTRAR') + ": " + (error.message || 'Error desconocido'));
           return of(null); 
