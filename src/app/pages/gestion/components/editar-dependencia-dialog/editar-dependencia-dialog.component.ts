@@ -124,24 +124,28 @@ export class EditarDependenciaDialogComponent {
   @Output() dependenciaActualizada = new EventEmitter<void>();
 
   editarDependencia(){
-    this.popUpManager.showLoaderAlert(this.translate.instant('CARGA.EDITAR'));
-    const editar = this.construirEdicion();
-    this.oikosMidService.post("gestion_dependencias_mid/EditarDependencia", editar).pipe(
-      tap((res: any) => {
-          if (res.Success) {
-              this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.EDITAR'));
-              this.dependenciaActualizada.emit();
-          } else {
-              this.popUpManager.showErrorAlert(this.translate.instant('ERROR.EDITAR'));
-          }
-      }),
-      catchError((error) => {
-          console.error('Error en la solicitud:', error);
-          this.popUpManager.showErrorAlert(this.translate.instant('ERROR.EDITAR') +": " + (error.message || this.translate.instant('ERROR.DESCONOCIDO')));
-          return of(null); 
-      })
-    ).subscribe();
-    this.dialogRef.close();
+    this.popUpManager.showConfirmAlert(this.translate.instant('CONFIRMACION.EDITAR.PREGUNTA'),this.translate.instant('CONFIRMACION.EDITAR.CONFIRMAR'),this.translate.instant('CONFIRMACION.EDITAR.DENEGAR')).then((result) =>{
+      if (result === true){
+        this.popUpManager.showLoaderAlert(this.translate.instant('CARGA.EDITAR'));
+        const editar = this.construirEdicion();
+        this.oikosMidService.post("gestion_dependencias_mid/EditarDependencia", editar).pipe(
+          tap((res: any) => {
+              if (res.Success) {
+                  this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.EDITAR'));
+                  this.dependenciaActualizada.emit();
+              } else {
+                  this.popUpManager.showErrorAlert(this.translate.instant('ERROR.EDITAR'));
+              }
+          }),
+          catchError((error) => {
+              console.error('Error en la solicitud:', error);
+              this.popUpManager.showErrorAlert(this.translate.instant('ERROR.EDITAR') +": " + (error.message || this.translate.instant('ERROR.DESCONOCIDO')));
+              return of(null); 
+          })
+        ).subscribe();
+        this.dialogRef.close();
+      }
+    })
   }
 
   onCloseClick(){

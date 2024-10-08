@@ -111,6 +111,37 @@
       "ACTIVAR":"Activando Dependencia...",
       "DESACTIVAR":"Desactivando Dependencia...",
       "EDITAR":"Editando datos..."
+    },
+    "CONFIRMACION":{
+      "ACTIVAR":{
+        "PREGUNTA":"¿Desea activar la dependencia?",
+        "CONFIRMAR":"ACTIVAR",
+        "DENEGAR":"NO ACTIVAR"
+      },
+      "DESACTIVAR":{
+        "PREGUNTA":"¿Desea desactivar la dependencia?",
+        "CONFIRMAR":"DESACTIVAR",
+        "DENEGAR":"NO DESACTIVAR"
+      },
+      "EDITAR":{
+        "PREGUNTA":"¿Desea editar la dependencia?",
+        "CONFIRMAR":"EDITAR",
+        "DENEGAR":"NO EDITAR"
+      },
+      "CANCELAR":"CANCELAR",
+      "DENEGACION":"Los cambios no fueron guardados"
+    },
+    "POP_UP":{
+      "ICONO":{
+        "ERROR":"error",
+        "INFO":"info",
+        "EXITO":"success"
+      },
+      "TITULO":{
+        "EXITO":"Operación exitosa",
+        "ERROR":"Error"
+      },
+      "CONFIRMACION":"Aceptar"
     }
   }
   
