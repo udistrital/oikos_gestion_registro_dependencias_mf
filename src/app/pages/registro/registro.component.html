@@ -23,43 +23,70 @@
                                         </button> 
                                     </p>
                                     <input type="text" formControlName="nombre">
-                                    <p class="nombre-input">{{ "FORMULARIO.TELEFONO_ASOCIADO" | translate }} <button class="boton-ayuda">?   
-                                        <span class="tooltip tooltip-right">
-                                        <p>{{ "TOOLTIP.TELEFONO.PARTE_1" | translate }}</p>
-                                        <p>{{ "TOOLTIP.TELEFONO.PARTE_2" | translate }}</p>
-                                        <br>
-                                        <p>{{ "TOOLTIP.TELEFONO.PARTE_3" | translate }}</p>
-                                        <p>{{ "TOOLTIP.TELEFONO.PARTE_4" | translate }}<span class="check">✔</span></p>
-                                        <p>{{ "TOOLTIP.TELEFONO.PARTE_5" | translate }}</p>
-                                        </span></button></p>
-                                        <input type="text" formControlName="telefono">
+                                    <div class="error" *ngIf="registroForm.get('nombre')?.invalid && registroForm.get('nombre')?.touched">
+                                        {{ "* Campo obligatorio" | translate }}
+                                    </div>
+                                    <p class="nombre-input">{{ "FORMULARIO.TELEFONO_ASOCIADO" | translate }} 
+                                        <button class="boton-ayuda">?   
+                                            <span class="tooltip-text">
+                                                <p>{{ "TOOLTIP.TELEFONO.PARTE_1" | translate }}</p>
+                                                <p>{{ "TOOLTIP.TELEFONO.PARTE_2" | translate }}</p>
+                                                <br>
+                                                <p>{{ "TOOLTIP.TELEFONO.PARTE_3" | translate }}</p>
+                                                <p>{{ "TOOLTIP.TELEFONO.PARTE_4" | translate }}<span class="check">✔</span></p>
+                                                <p>{{ "TOOLTIP.TELEFONO.PARTE_5" | translate }}</p>
+                                            </span>
+                                        </button>
+                                    </p>
+                                    <input type="text" formControlName="telefono">
+                                    <div class="error" *ngIf="registroForm.get('telefono')?.invalid && registroForm.get('telefono')?.touched">
+                                        {{ "* Campo obligatorio" | translate }}
+                                    </div>
                                 
-                                    <p class="nombre-input">{{ "FORMULARIO.CORREO" | translate }}<button class="boton-ayuda">?   
-                                        <span class="tooltip tooltip-right">
-                                        <p>{{ "TOOLTIP.CORREO.PARTE_1" | translate }}</p>
-                                        <br>
-                                        <p>{{ "TOOLTIP.CORREO.PARTE_2" | translate }}</p>
-                                        <p>{{ "TOOLTIP.CORREO.PARTE_3" | translate }}<span class="check">✔</span></p>
-                                        <p>{{ "TOOLTIP.CORREO.PARTE_4" | translate }}</p>
-                                    </span></button></p>
+                                    <p class="nombre-input">{{ "FORMULARIO.CORREO" | translate }}
+                                        <button class="boton-ayuda">?   
+                                            <span class="tooltip-text">
+                                                <p>{{ "TOOLTIP.CORREO.PARTE_1" | translate }}</p>
+                                                <br>
+                                                <p>{{ "TOOLTIP.CORREO.PARTE_2" | translate }}</p>
+                                                <p>{{ "TOOLTIP.CORREO.PARTE_3" | translate }}<span class="check">✔</span></p>
+                                                <p>{{ "TOOLTIP.CORREO.PARTE_4" | translate }}</p>
+                                            </span>
+                                        </button>
+                                    </p>
                                     <input type="text" formControlName="correo">
+                                    <div class="error" *ngIf="registroForm.get('correo')?.invalid && registroForm.get('correo')?.touched">
+                                        {{ "* Campo obligatorio" | translate }}
+                                    </div>
+
                                 </div>
                                 <div class="right-column">
                                     <p class="nombre-input">{{ "FORMULARIO.TIPO_DEPENDENCIA" | translate }}</p>
+                                    <button class="boton-ayuda-dos">
+                                    </button>
                                     <mat-select formControlName="tipoDependencia" multiple>
                                         <mat-option *ngFor="let item of tiposDependencia" [value]="item">
                                             {{item.nombre}}
                                         </mat-option>
                                     </mat-select>
+                                    <div class="error" *ngIf="registroForm.get('tipoDependencia')?.invalid && registroForm.get('tipoDependencia')?.touched">
+                                        {{ "* Campo obligatorio" | translate }}
+                                    </div>
 
                                     <p class="nombre-input">{{ "FORMULARIO.DEPENDENCIAS_ASOCIADA" | translate }}</p>
+                                    <button class="boton-ayuda-dos">
+                                    </button>
                                     <select  formControlName="dependenciaAsociada">
                                         <option> ... </option>
                                         <option *ngFor="let item of dependenciasAsociadas" [ngValue]="item">
                                             {{item.nombre}}
                                         </option>
                                     </select>
-                                    <button class="boton-accion" (click)="enviarDependencia()">{{ "FORMULARIO.REGISTRAR" | translate }}</button>
+                                    <div class="error" *ngIf="registroForm.get('dependenciaAsociada')?.invalid && registroForm.get('dependenciaAsociada')?.touched">
+                                        {{ "* Campo obligatorio" | translate }}
+                                    </div>
+
+                                    <button class="boton-accion" (click)="enviarDependencia()" [disabled]="!registroForm.valid" [ngClass]="{'btn-disabled': !registroForm.valid, 'btn-enabled': registroForm.valid}">{{ "FORMULARIO.REGISTRAR" | translate }}</button>
                                 </div>
                             </div>
                         </form>
