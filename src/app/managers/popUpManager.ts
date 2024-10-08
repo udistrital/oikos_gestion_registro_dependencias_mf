@@ -1,27 +1,33 @@
 import { Injectable } from '@angular/core';
 // @ts-ignore
-import Swal from 'sweetalert2/dist/sweetalert2';
+import Swal, { SweetAlertResult } from 'sweetalert2/dist/sweetalert2';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
     providedIn: 'root',
 })
+
 export class PopUpManager {
     constructor(
-    ) { }
+        private translate: TranslateService,
+    ) { 
+        translate.setDefaultLang('es');
+    }
+
     showSuccessAlert(text: string) {
         Swal.fire({
-            icon: 'success',
-            title: 'Operación exitosa',
+            icon: this.translate.instant('POP_UP.ICONO.EXITO'),
+            title: this.translate.instant('POP_UP.TITULO.EXITO'),
             text: text,
-            confirmButtonText: 'Aceptar',
+            confirmButtonText: this.translate.instant('POP_UP.CONFIRMACION'),
         });
     }
     showErrorAlert(text: string) {
         Swal.fire({
-            icon: 'error',
-            title: 'Error',
+            icon: this.translate.instant('POP_UP.ICONO.ERROR'),
+            title: this.translate.instant('POP_UP.TITULO.ERROR'),
             text: text,
-            confirmButtonText: 'Aceptar',
+            confirmButtonText: this.translate.instant('POP_UP.CONFIRMACION'),
         });
     }
     showLoaderAlert(text: string){
@@ -35,4 +41,24 @@ export class PopUpManager {
             }
         });
     }
+
+    showConfirmAlert(titulo: string, confirmar: string, denegar: string): Promise<boolean | null> {
+        return Swal.fire({
+            title: titulo,
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: confirmar,
+            denyButtonText: denegar,
+        }).then((result: SweetAlertResult ) => {
+            if (result.isConfirmed) {
+                return true;
+            } else if (result.isDenied) {
+                Swal.fire(this.translate.instant('CONFIRMACION.DENEGACION'), '', this.translate.instant('POP_UP.ICONO.INFO'));
+                return false;
+            } else {
+                return null; 
+            }
+        });
+    }
+
 }

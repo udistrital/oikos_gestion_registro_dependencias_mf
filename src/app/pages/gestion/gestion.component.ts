@@ -243,6 +243,22 @@ export class GestionComponent implements OnInit, AfterViewInit {
     return this.oikosService.get('dependencia/' + id).toPromise();
   }
 
+  activarDependenciaComprobacion(element: any){
+    this.popUpManager.showConfirmAlert(this.translate.instant('CONFIRMACION.ACTIVAR.PREGUNTA'),this.translate.instant('CONFIRMACION.ACTIVAR.CONFIRMAR'),this.translate.instant('CONFIRMACION.ACTIVAR.DENEGAR')).then((result) =>{
+      if (result === true){
+        this.activarDependencia(element)
+      }
+    })
+  }
+
+  desactivarDependenciaComprobacion(element: any){
+    this.popUpManager.showConfirmAlert(this.translate.instant('CONFIRMACION.DESACTIVAR.PREGUNTA'),this.translate.instant('CONFIRMACION.DESACTIVAR.CONFIRMAR'),this.translate.instant('CONFIRMACION.DESACTIVAR.DENEGAR')).then((result) =>{
+      if (result === true){
+        this.desactivarDependencia(element)
+      }
+    })
+  }
+
   async activarDependencia(element: any) {
     this.popUpManager.showLoaderAlert(this.translate.instant('CARGA.ACTIVAR'));
     const fechaActual = new Date().toISOString();
@@ -275,6 +291,7 @@ export class GestionComponent implements OnInit, AfterViewInit {
       Swal.close();
       this.popUpManager.showErrorAlert(this.translate.instant('ERROR.ACTIVAR') + ":" + this.translate.instant('ERROR.DESCONOCIDO'));
     }
+
   }
 
   async desactivarDependencia(element: any) {
