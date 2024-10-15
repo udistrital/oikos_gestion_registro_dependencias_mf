@@ -94,6 +94,10 @@
     transform: translateY(-50%);
 }
 
+input[formControlName="nombre"] {
+    text-transform: uppercase;
+}
+
 .boton-ayuda {
     position: relative;
     font-family: Helvetica;

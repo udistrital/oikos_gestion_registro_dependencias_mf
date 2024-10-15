@@ -1,7 +1,7 @@
 import { Component, signal, Inject} from '@angular/core';
 import { Desplegables } from 'src/app/models/desplegables.models';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators,AbstractControl, ValidationErrors } from '@angular/forms';
 import { OikosService } from '../../../../services/oikos.service';
 import { OikosMidService } from '../../../../services/oikos_mid.service';
 import { BusquedaGestion } from 'src/app/models/busquedaGestion.models';
@@ -24,6 +24,17 @@ export class EditarDependenciaDialogComponent {
   dependenciasAsociadas: Desplegables[] = [];
   tiposSeleccionados: Desplegables[]=[];
 
+  correoUdistritalValidator(control: AbstractControl): ValidationErrors | null {
+    const email = control.value;
+    const dominioPermitido = '@udistrital.edu.co';
+    
+    if (email && !email.endsWith(dominioPermitido)) {
+      return { correoInvalido: true };
+    }
+    
+    return null;
+  }
+
   EditarForm = new FormGroup({
     nombre: new FormControl<string | null>(null, {
       nonNullable: false,
@@ -33,9 +44,12 @@ export class EditarDependenciaDialogComponent {
       nonNullable: false,
       validators: [Validators.required]
     }),
-    correo: new FormControl<string | null>(null, {
-      nonNullable: false,
-      validators: [Validators.required]
+    correo: new FormControl<string | null>("",{
+      nonNullable:true,
+      validators:[
+        Validators.required,
+        this.correoUdistritalValidator
+      ]
     }),
     tipoDependencia: new FormControl<Desplegables[] >([], {
       nonNullable: true,

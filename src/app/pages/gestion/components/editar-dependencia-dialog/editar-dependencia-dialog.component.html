@@ -51,8 +51,11 @@
                         </button>
                     </p>
                     <input type="text" formControlName="correo">
-                    <div class="error" *ngIf="EditarForm.get('correo')?.invalid && EditarForm.get('correo')?.touched">
+                    <div class="error" *ngIf="EditarForm.get('correo')?.errors?.['required'] && EditarForm.get('correo')?.touched">
                         {{ "* Campo obligatorio" | translate }}
+                    </div>
+                    <div class="error" *ngIf="EditarForm.get('correo')?.errors?.['correoInvalido'] && EditarForm.get('correo')?.touched">
+                        {{ "* El correo debe terminar en @udistrital.edu.co" | translate }}
                     </div>
 
                 </div>
