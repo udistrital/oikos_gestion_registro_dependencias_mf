@@ -57,3 +57,41 @@ mat-select {
 .mat-select-panel {
     font-size: 14px; 
 }
+
+.error {
+    color: red;
+    font-size: 12px;
+    min-height: 16px; 
+    margin-top: -16px;
+}
+
+.boton-ayuda {
+    font-size: 11px; 
+    padding: 1px 1px; 
+    height: auto; 
+    min-width: 10px; 
+    line-height: 0.8; 
+}
+
+.boton-ayuda-dos {
+    font-size: 11px; 
+    padding: 1px 1px; 
+    height: auto; 
+    min-width: 10px; 
+    line-height: 0.8; 
+    background: none; 
+    border: none; 
+}
+
+.boton-accion {
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-enabled {
+    cursor: pointer;
+  }
+  
+  .btn-disabled {
+    background-color: #b3b3b3; 
+    cursor: not-allowed;
+  }

@@ -20,6 +20,9 @@
                         </button> 
                     </p>
                     <input type="text" formControlName="nombre">
+                    <div class="error" *ngIf="EditarForm.get('nombre')?.invalid && EditarForm.get('nombre')?.touched">
+                        {{ "* Campo obligatorio" | translate }}
+                    </div>
 
                     <p class="nombre-input">{{ 'FORMULARIO.TELEFONO_ASOCIADO' | translate }}
                         <button class="boton-ayuda">?   
@@ -33,6 +36,9 @@
                         </button>
                     </p>
                     <input type="text" formControlName="telefono">
+                    <div class="error" *ngIf="EditarForm.get('telefono')?.invalid && EditarForm.get('telefono')?.touched">
+                        {{ "* Campo obligatorio" | translate }}
+                    </div>
 
                     <p class="nombre-input">{{ 'FORMULARIO.CORREO' | translate }}
                         <button class="boton-ayuda">?   
@@ -45,23 +51,40 @@
                         </button>
                     </p>
                     <input type="text" formControlName="correo">
+                    <div class="error" *ngIf="EditarForm.get('correo')?.errors?.['required'] && EditarForm.get('correo')?.touched">
+                        {{ "* Campo obligatorio" | translate }}
+                    </div>
+                    <div class="error" *ngIf="EditarForm.get('correo')?.errors?.['correoInvalido'] && EditarForm.get('correo')?.touched">
+                        {{ "* El correo debe terminar en @udistrital.edu.co" | translate }}
+                    </div>
+
                 </div>
                 <div class="right-column">
                     <p class="nombre-input">{{ 'FORMULARIO.TIPO_DEPENDENCIA' | translate }}</p>
+                    <button class="boton-ayuda-dos">
+                    </button>
                     <mat-select formControlName="tipoDependencia" multiple>
                         <mat-option *ngFor="let item of tiposDependencia" [value]="item">
                             {{ item.nombre }}
                         </mat-option>
                     </mat-select>
+                    <div class="error" *ngIf="EditarForm.get('tipoDependencia')?.invalid && EditarForm.get('tipoDependencia')?.touched">
+                        {{ "* Campo obligatorio" | translate }}
+                    </div>
                     
                     <p class="nombre-input">{{ 'FORMULARIO.DEPENDENCIAS_ASOCIADA' | translate }}</p>
+                    <button class="boton-ayuda-dos">
+                    </button>
                     <select formControlName="dependenciaAsociada">
                         <option *ngFor="let item of dependenciasAsociadas" [ngValue]="item">
                           {{ item.nombre }}
                         </option>
                     </select>
+                    <div class="error" *ngIf="EditarForm.get('dependenciaAsociada')?.invalid && EditarForm.get('dependenciaAsociada')?.touched">
+                        {{ "* Campo obligatorio" | translate }}
+                    </div>
 
-                    <button class="boton-accion" (click)="editarDependencia()">{{ 'FORMULARIO.EDITAR' | translate }}</button>
+                    <button class="boton-accion" (click)="editarDependencia()" [disabled]="!EditarForm.valid" [ngClass]="{'btn-disabled': !EditarForm.valid, 'btn-enabled': EditarForm.valid}">{{ 'FORMULARIO.EDITAR' | translate }}</button>
                 </div>
             </div>
         </form> 

@@ -11,7 +11,7 @@ import { OikosMidService } from '../../services/oikos_mid.service';
 import { Desplegables } from 'src/app/models/desplegables.models';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PopUpManager } from '../../managers/popUpManager';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
@@ -150,7 +150,10 @@ export class GestionComponent implements OnInit, AfterViewInit {
     });
 
     dialogRef.componentInstance.dependenciaActualizada.subscribe(() => {
-      this.recargarTabla();  
+      const busqueda = this.construirBusqueda();
+      this.busqueda(busqueda).then((resultados) => {
+        this.procesarResultados(resultados);
+      });
     });
   }
 
@@ -180,67 +183,74 @@ export class GestionComponent implements OnInit, AfterViewInit {
       busqueda.VicerrectoriaId = this.gestionForm.value.vicerrectoria.id;
     }
 
-    if (this.gestionForm.value.estado !== '...') {
-      busqueda.BusquedaEstado = {
-        Estado: this.gestionForm.value.estado === "ACTIVO"
-      };
+    if (this.gestionForm.value.estado) {
+      if ( this.gestionForm.value.estado != '...'){
+        busqueda.BusquedaEstado = {
+          Estado: this.gestionForm.value.estado === "ACTIVO"
+        };
+      }
     }
-
     return busqueda;
   }
 
   buscarDependencias() {
-    const busqueda = this.construirBusqueda();  
-    this.popUpManager.showLoaderAlert(this.translate.instant('CARGA.BUSQUEDA'));
-    this.mostrarTabla = false;  
-
-    this.oikosMidService.post("gestion_dependencias_mid/BuscarDependencia", busqueda).pipe(
-      tap((res: any) => {
-        console.log("RES ", res)
-        if (res && res.Data) {
-          const datosTransformados = res.Data.map((item: any) => ({
-            id: item.Dependencia.Id,
-            nombre: item.Dependencia.Nombre,
-            telefono: item.Dependencia.TelefonoDependencia,
-            correo: item.Dependencia.CorreoElectronico,
-            dependenciasAsociadas: item.DependenciaAsociada ? {
-              id: item.DependenciaAsociada.Id,
-              nombre: item.DependenciaAsociada.Nombre
-            }: null,
-            tipoDependencia: item.TipoDependencia.map((tipo: any) => ({
-              id: tipo.Id,
-              nombre: tipo.Nombre
-            })),
-            estado: item.Estado ? 'ACTIVA' : 'NO ACTIVA',
-          }));
-          console.log(datosTransformados)
-
-          this.datos = new MatTableDataSource<BusquedaGestion>(datosTransformados);
-          setTimeout(() => { this.datos.paginator = this.paginator; }, 1000);
-
-          Swal.close();
-          this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.BUSQUEDA'));
-          this.mostrarTabla = true;  
-        } else {
-          Swal.close();
-          this.popUpManager.showErrorAlert(this.translate.instant('ERROR.BUSQUEDA.DATOS'));
-          this.mostrarTabla = false;
+    const busqueda = this.construirBusqueda();
+    if (Object.keys(busqueda).length !== 0) {
+      this.busqueda(busqueda).then((resultadosParciales) => {
+        this.procesarResultados(resultadosParciales);
+      });
+    } else {
+      
+      const busquedaActiva = {
+        BusquedaEstado:{
+          Estado: true
         }
-      }),
-      catchError((error) => {
-        Swal.close();
-        this.popUpManager.showErrorAlert(this.translate.instant('ERROR.BUSQUEDA.BUSQUEDA') + (error.message || this.translate.instant('ERROR.DESCONOCIDO')));
-        console.error('Error al buscar dependencias:', error);
-        this.mostrarTabla = false;
-        return of(null);
-      })
-    ).subscribe();
-}
+      };
+      const busquedaInactiva = {
+        BusquedaEstado:{
+          Estado: false
+        }
+      };
+      this.busqueda(busquedaActiva).then((resultadosActivos) => {
+      this.busqueda(busquedaInactiva).then((resultadosInactivos) => {
+        const resultadosTotales = [...resultadosActivos, ...resultadosInactivos];
+        this.procesarResultados(resultadosTotales);
+      });
+      });
+    }
+      
+  }
 
-  /* Inicio de activar y desactivar dependencia */ 
+  procesarResultados(resultados: any[]) {
+    if (resultados.length > 0) {
+      this.datos = new MatTableDataSource<BusquedaGestion>(resultados);
+      setTimeout(() => { this.datos.paginator = this.paginator; }, 1000);
+      this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.BUSQUEDA'));
+      this.mostrarTabla = true;  
+    } else {
+      this.popUpManager.showErrorAlert(this.translate.instant('ERROR.BUSQUEDA.DATOS'));
+      this.mostrarTabla = false;
+    }
+  }
 
   consultarDependencia(id: number): Promise<any> {
     return this.oikosService.get('dependencia/' + id).toPromise();
+  }
+
+  activarDependenciaComprobacion(element: any){
+    this.popUpManager.showConfirmAlert(this.translate.instant('CONFIRMACION.ACTIVAR.PREGUNTA'),this.translate.instant('CONFIRMACION.ACTIVAR.CONFIRMAR'),this.translate.instant('CONFIRMACION.ACTIVAR.DENEGAR')).then((result) =>{
+      if (result === true){
+        this.activarDependencia(element)
+      }
+    })
+  }
+
+  desactivarDependenciaComprobacion(element: any){
+    this.popUpManager.showConfirmAlert(this.translate.instant('CONFIRMACION.DESACTIVAR.PREGUNTA'),this.translate.instant('CONFIRMACION.DESACTIVAR.CONFIRMAR'),this.translate.instant('CONFIRMACION.DESACTIVAR.DENEGAR')).then((result) =>{
+      if (result === true){
+        this.desactivarDependencia(element)
+      }
+    })
   }
 
   async activarDependencia(element: any) {
@@ -267,6 +277,11 @@ export class GestionComponent implements OnInit, AfterViewInit {
       if (response && response.Id === dataActualizada.Id && response.Activo === dataActualizada.Activo) {
         Swal.close();
         this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.ACTIVAR'));
+
+        const busqueda = this.construirBusqueda();
+        this.busqueda(busqueda).then((resultados) => {
+          this.procesarResultados(resultados);
+        });
       } else {
         Swal.close();
         this.popUpManager.showErrorAlert(this.translate.instant('ERROR.ACTIVAR'));
@@ -275,6 +290,7 @@ export class GestionComponent implements OnInit, AfterViewInit {
       Swal.close();
       this.popUpManager.showErrorAlert(this.translate.instant('ERROR.ACTIVAR') + ":" + this.translate.instant('ERROR.DESCONOCIDO'));
     }
+
   }
 
   async desactivarDependencia(element: any) {
@@ -301,6 +317,11 @@ export class GestionComponent implements OnInit, AfterViewInit {
 
       if (response && response.Id === dataActualizada.Id && response.Activo === dataActualizada.Activo) {
         this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.DESACTIVAR'));
+
+        const busqueda = this.construirBusqueda();
+        this.busqueda(busqueda).then((resultados) => {
+          this.procesarResultados(resultados);
+        });
       } else {
         this.popUpManager.showErrorAlert(this.translate.instant('ERROR.DESACTIVAR'));
       }
@@ -308,46 +329,37 @@ export class GestionComponent implements OnInit, AfterViewInit {
       this.popUpManager.showErrorAlert(this.translate.instant('ERROR.DESACTIVAR') + ":" + this.translate.instant('ERROR.DESCONOCIDO'));
     }
   }
-  /* Fin de activar y desactivar dependencia */
 
-  /* Inicio recarga tabla */
-  public recargarTabla(): void {
-    const busqueda = this.construirBusqueda();  // Mantén los filtros actuales
-    this.cargando = true;
+  busqueda(busqueda: any = {}): Promise<any[]>{
+    this.popUpManager.showLoaderAlert(this.translate.instant('CARGA.BUSQUEDA'));
 
-    this.oikosMidService.post("gestion_dependencias_mid/BuscarDependencia", busqueda).subscribe(
-      (res: any) => {
-        const datosTransformados = res.Data.map((item: any) => ({
-          id: item.Dependencia.Id,
-          nombre: item.Dependencia.Nombre,
-          telefono: item.Dependencia.TelefonoDependencia,
-          correo: item.Dependencia.CorreoElectronico,
-          dependenciasAsociadas: {
-            id: item.DependenciaAsociada.Id,
-            nombre: item.DependenciaAsociada.Nombre
-          },
-          tipoDependencia: item.TipoDependencia.map((tipo: any) => ({
-            id: tipo.Id,
-            nombre: tipo.Nombre
-          })),
-          estado: item.Estado ? 'ACTIVA' : 'NO ACTIVA',
-        }));
-
-        this.elementosBusqueda.set(datosTransformados);
-        this.datos.data = this.elementosBusqueda();
-
-        if (this.paginator) {
-          this.datos.paginator = this.paginator;
+    return this.oikosMidService.post("gestion_dependencias_mid/BuscarDependencia", busqueda).pipe(
+      map((res: any) => {
+        if (res && res.Data) {
+          return res.Data.map((item: any) => ({
+            id: item.Dependencia.Id,
+            nombre: item.Dependencia.Nombre,
+            telefono: item.Dependencia.TelefonoDependencia,
+            correo: item.Dependencia.CorreoElectronico,
+            dependenciasAsociadas: item.DependenciaAsociada ? {
+              id: item.DependenciaAsociada.Id,
+              nombre: item.DependenciaAsociada.Nombre
+            }: null,
+            tipoDependencia: item.TipoDependencia.map((tipo: any) => ({
+              id: tipo.Id,
+              nombre: tipo.Nombre
+            })),
+            estado: item.Estado ? 'ACTIVA' : 'NO ACTIVA',
+          }));
+        } else {
+          return [];
         }
-
-        this.cargando = false;
-      },
-      (error) => {
-        console.error('Error al buscar dependencias', error);
-        this.cargando = false;
-      }
-    );
+      }),
+      catchError((error) => {
+        Swal.close();
+        this.popUpManager.showErrorAlert(this.translate.instant('ERROR.BUSQUEDA.BUSQUEDA') + (error.message || this.translate.instant('ERROR.DESCONOCIDO')));
+        return []
+      })
+    ).toPromise() as Promise<any[]>;
   }
-
-  /* Fin recarga tabla */
 }

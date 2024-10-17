@@ -1,7 +1,7 @@
 import { Component, signal, Inject} from '@angular/core';
 import { Desplegables } from 'src/app/models/desplegables.models';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators,AbstractControl, ValidationErrors } from '@angular/forms';
 import { OikosService } from '../../../../services/oikos.service';
 import { OikosMidService } from '../../../../services/oikos_mid.service';
 import { BusquedaGestion } from 'src/app/models/busquedaGestion.models';
@@ -24,6 +24,17 @@ export class EditarDependenciaDialogComponent {
   dependenciasAsociadas: Desplegables[] = [];
   tiposSeleccionados: Desplegables[]=[];
 
+  correoUdistritalValidator(control: AbstractControl): ValidationErrors | null {
+    const email = control.value;
+    const dominioPermitido = '@udistrital.edu.co';
+    
+    if (email && !email.endsWith(dominioPermitido)) {
+      return { correoInvalido: true };
+    }
+    
+    return null;
+  }
+
   EditarForm = new FormGroup({
     nombre: new FormControl<string | null>(null, {
       nonNullable: false,
@@ -33,9 +44,12 @@ export class EditarDependenciaDialogComponent {
       nonNullable: false,
       validators: [Validators.required]
     }),
-    correo: new FormControl<string | null>(null, {
-      nonNullable: false,
-      validators: [Validators.required]
+    correo: new FormControl<string | null>("",{
+      nonNullable:true,
+      validators:[
+        Validators.required,
+        this.correoUdistritalValidator
+      ]
     }),
     tipoDependencia: new FormControl<Desplegables[] >([], {
       nonNullable: true,
@@ -46,7 +60,6 @@ export class EditarDependenciaDialogComponent {
       validators: [Validators.required]
     })
   });
-  
 
   constructor(
     public dialogRef: MatDialogRef<EditarDependenciaDialogComponent>,
@@ -125,24 +138,28 @@ export class EditarDependenciaDialogComponent {
   @Output() dependenciaActualizada = new EventEmitter<void>();
 
   editarDependencia(){
-    this.popUpManager.showLoaderAlert(this.translate.instant('CARGA.EDITAR'));
-    const editar = this.construirEdicion();
-    this.oikosMidService.post("gestion_dependencias_mid/EditarDependencia", editar).pipe(
-      tap((res: any) => {
-          if (res.Success) {
-              this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.EDITAR'));
-              this.dependenciaActualizada.emit();
-          } else {
-              this.popUpManager.showErrorAlert(this.translate.instant('ERROR.EDITAR'));
-          }
-      }),
-      catchError((error) => {
-          console.error('Error en la solicitud:', error);
-          this.popUpManager.showErrorAlert(this.translate.instant('ERROR.EDITAR') +": " + (error.message || this.translate.instant('ERROR.DESCONOCIDO')));
-          return of(null); 
-      })
-    ).subscribe();
-    this.dialogRef.close();
+    this.popUpManager.showConfirmAlert(this.translate.instant('CONFIRMACION.EDITAR.PREGUNTA'),this.translate.instant('CONFIRMACION.EDITAR.CONFIRMAR'),this.translate.instant('CONFIRMACION.EDITAR.DENEGAR')).then((result) =>{
+      if (result === true){
+        this.popUpManager.showLoaderAlert(this.translate.instant('CARGA.EDITAR'));
+        const editar = this.construirEdicion();
+        this.oikosMidService.post("gestion_dependencias_mid/EditarDependencia", editar).pipe(
+          tap((res: any) => {
+              if (res.Success) {
+                  this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.EDITAR'));
+                  this.dependenciaActualizada.emit();
+              } else {
+                  this.popUpManager.showErrorAlert(this.translate.instant('ERROR.EDITAR'));
+              }
+          }),
+          catchError((error) => {
+              console.error('Error en la solicitud:', error);
+              this.popUpManager.showErrorAlert(this.translate.instant('ERROR.EDITAR') +": " + (error.message || this.translate.instant('ERROR.DESCONOCIDO')));
+              return of(null); 
+          })
+        ).subscribe();
+        this.dialogRef.close();
+      }
+    })
   }
 
   onCloseClick(){

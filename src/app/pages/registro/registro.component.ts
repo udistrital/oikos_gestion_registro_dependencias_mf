@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { OikosService } from '../../services/oikos.service';
 import { OikosMidService } from '../../services/oikos_mid.service';
 import { PopUpManager } from '../../managers/popUpManager'
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators,AbstractControl, ValidationErrors  } from '@angular/forms';
 import { Desplegables } from 'src/app/models/desplegables.models';
 import { MatDialogRef } from '@angular/material/dialog';
 import { catchError, tap } from 'rxjs/operators';
@@ -41,6 +41,17 @@ export class RegistroComponent implements OnInit{
   ngOnInit() {
     this.iniciarFormularioConsulta();
   }
+  
+  correoUdistritalValidator(control: AbstractControl): ValidationErrors | null {
+    const email = control.value;
+    const dominioPermitido = '@udistrital.edu.co';
+    
+    if (email && !email.endsWith(dominioPermitido)) {
+      return { correoInvalido: true };
+    }
+    
+    return null;
+  }
 
   iniciarFormularioConsulta(){
     this.registroForm = new FormGroup({
@@ -59,7 +70,8 @@ export class RegistroComponent implements OnInit{
       correo: new FormControl<string | null>("",{
         nonNullable:true,
         validators:[
-          Validators.required
+          Validators.required,
+          this.correoUdistritalValidator
         ]
       }),
       tipoDependencia: new FormControl<Desplegables[] | null>([],{
