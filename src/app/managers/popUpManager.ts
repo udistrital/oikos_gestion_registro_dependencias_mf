@@ -16,6 +16,7 @@ export class PopUpManager {
 
     showSuccessAlert(text: string) {
         Swal.fire({
+            confirmButtonColor: '#8C1A18',
             icon: this.translate.instant('POP_UP.ICONO.EXITO'),
             title: this.translate.instant('POP_UP.TITULO.EXITO'),
             text: text,
@@ -24,6 +25,7 @@ export class PopUpManager {
     }
     showErrorAlert(text: string) {
         Swal.fire({
+            confirmButtonColor: '#8C1A18',
             icon: this.translate.instant('POP_UP.ICONO.ERROR'),
             title: this.translate.instant('POP_UP.TITULO.ERROR'),
             text: text,
@@ -44,6 +46,7 @@ export class PopUpManager {
 
     showConfirmAlert(titulo: string, confirmar: string, denegar: string): Promise<boolean | null> {
         return Swal.fire({
+            confirmButtonColor: '#188c18',
             title: titulo,
             showDenyButton: true,
             showCancelButton: true,
