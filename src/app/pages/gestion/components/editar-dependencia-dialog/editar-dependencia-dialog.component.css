@@ -85,6 +85,7 @@ mat-select {
 
 .boton-accion {
     transition: background-color 0.3s ease;
+    background-color: #8C1A18;
   }
   
   .btn-enabled {
