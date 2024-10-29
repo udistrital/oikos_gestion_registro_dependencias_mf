@@ -34,7 +34,7 @@
     justify-content: center;
     align-items: center;
     height: 100%;   
-    font-family: Helvetica;
+    font-family: Helvetica, sans-serif;
     font-size: 28px;
 }
 
@@ -76,7 +76,7 @@
 
 .nodo{
     font-weight: bold;
-    font-family: Helvetica;
+    font-family: Helvetica, sans-serif;
     border-radius: 10px;
     margin-left: -30px; 
     background-color: #fff;

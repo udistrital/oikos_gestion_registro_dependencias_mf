@@ -9,7 +9,7 @@
     color: #8C1A18;
     padding: 10px;
     text-align: center;
-    font-family: Helvetica;
+    font-family: Helvetica, sans-serif;
     flex: 1;
     display: flex;
     justify-content: center;
@@ -44,7 +44,7 @@ mat-select {
     font-size: 14px;
     border-radius: 5px;
     border: 1px solid;
-    font-family: Helvetica;
+    font-family: Helvetica, sans-serif;
     padding-left: 5px;
     margin-bottom: 16px;
     margin-top: 3px;
