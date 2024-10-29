@@ -76,7 +76,10 @@
   
   
               <ng-container *ngIf="mostrarTabla && !cargando">
-                <table mat-table [dataSource]="datos" class="mat-elevation-z8 tabla-gestion" aria-label="Tabla de gestion">
+                <table mat-table [dataSource]="datos" class="mat-elevation-z8 tabla-gestion" aria-label="Tabla de gestion" aria-describedby="descripcionTabla">
+                  <span id="descripcionTabla" class="visually-hidden">
+                    Tabla de gestión de dependencias, que muestra los datos de cada dependencia.
+                  </span>
                   <ng-container matColumnDef="NOMBRE">
                     <th mat-header-cell *matHeaderCellDef class="titulo-tabla" id="columna-nombre">{{ "TABLA.COLUMNAS.NOMBRE" | translate }}</th>
                     <td mat-cell *matCellDef="let element" class="contenido-celda">{{ element.nombre }}</td>
