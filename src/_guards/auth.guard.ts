@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { PopUpManager } from 'src/app/managers/popUpManager';
+import { PopUpManager } from '../app/managers/popUpManager';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,9 @@ export class AuthGuard implements CanActivate {
   constructor(
     private popUpManager: PopUpManager,
     private translate: TranslateService,
-  ) {}
+  ) {
+    translate.setDefaultLang('es');
+  }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const menuInfo = localStorage.getItem('menu');
@@ -30,7 +32,9 @@ export class AuthGuard implements CanActivate {
       }
     }
 
-    this.popUpManager.showErrorAlert(this.translate.instant('ERROR.rol_insuficiente_titulo'));
+    this.translate.get('POP_UP.ICONO.ERROR').subscribe(icon => {
+      this.popUpManager.showErrorAlert(this.translate.instant('ERROR.ROL'));
+    });
     return false;
   }
 
