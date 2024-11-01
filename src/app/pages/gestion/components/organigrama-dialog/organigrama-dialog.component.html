@@ -1,0 +1,62 @@
+<mat-card>
+    <div class="contenido-editar">
+        <button class="boton-salir" (click)="onCloseClick()">x</button>
+    </div>
+    <mat-divider class="divider"></mat-divider>
+    <mat-card-content>
+        <mat-card>
+            <mat-card-title class="titulo-organigrama">{{ 'ORGANIGRAMA.GENERAL' | translate }}</mat-card-title> 
+            <mat-card-content>
+                <div class="card flex organigrama">
+                    <ng-container *ngFor="let chartData of general; let i = index">
+                        <p-organizationChart [value]="chartData" [selectionMode]="'multiple'">
+                            <ng-template let-node pTemplate="person">
+                                <div class="contenedor-nodo">
+                                    <div class="circulo-nodo" [style]="node.data.color_primario"><div class="circulo-interno-nodo" [style]="node.data.color_secundario"></div></div>
+                                    <div [ngClass]="node.styleClass"  [style]="node.data.borde">{{ node.data.nombre }}</div>
+                                </div>
+                            </ng-template>
+                        </p-organizationChart>
+                    </ng-container>
+                </div>
+            </mat-card-content>    
+        </mat-card>
+        <br>
+        <mat-card>
+            <mat-card-title class="titulo-organigrama">{{ 'ORGANIGRAMA.ACADEMICO' | translate }}</mat-card-title> 
+            <mat-card-content>
+                <div class="card flex organigrama">
+                    <ng-container *ngFor="let chartData of academico; let i = index">
+                        <p-organizationChart [value]="chartData" [selectionMode]="'multiple'">
+                            <ng-template let-node pTemplate="person">
+                                <div class="contenedor-nodo">
+                                    <div class="circulo-nodo" [style]="node.data.color_primario"><div class="circulo-interno-nodo" [style]="node.data.color_secundario"></div></div>
+                                    <div [ngClass]="node.styleClass"  [style]="node.data.borde">{{ node.data.nombre }}</div>
+                                </div>
+                            </ng-template>
+                        </p-organizationChart>
+                    </ng-container>
+                </div>
+            </mat-card-content>    
+        </mat-card>
+        <br>
+        <mat-card>
+            <mat-card-title class="titulo-organigrama">{{ 'ORGANIGRAMA.ADMINISTRATIVO' | translate }}</mat-card-title> 
+            <mat-card-content>
+                <div class="card flex organigrama">
+                    <ng-container *ngFor="let chartData of administrativo; let i = index">
+                        <p-organizationChart [value]="chartData" [selectionMode]="'multiple'">
+                            <ng-template let-node pTemplate="person">
+                                <div class="contenedor-nodo">
+                                    <div class="circulo-nodo" [style]="node.data.color_primario"><div class="circulo-interno-nodo" [style]="node.data.color_secundario"></div></div>
+                                    <div [ngClass]="node.styleClass"  [style]="node.data.borde">{{ node.data.nombre }}</div>
+                                </div>
+                            </ng-template>
+                        </p-organizationChart>
+                    </ng-container>
+                </div>
+            </mat-card-content>    
+        </mat-card>
+    </mat-card-content>
+</mat-card>
+
