@@ -124,7 +124,6 @@ export class RegistroComponent implements OnInit{
   enviarDependencia(){
     this.popUpManager.showLoaderAlert(this.translate.instant('CARGA.REGISTRO'));
     const registro = this.construirObjetoRegistro();
-    console.log(registro)
     this.oikosMidService.post("gestion_dependencias_mid/RegistrarDependencia", registro).pipe(
       tap((res: any) => {
           if (res.Success) {
