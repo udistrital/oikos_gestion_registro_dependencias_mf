@@ -7,6 +7,7 @@ import { Desplegables } from 'src/app/models/desplegables.models';
 import { MatDialogRef } from '@angular/material/dialog';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 // @ts-ignore
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -27,6 +28,7 @@ export class RegistroComponent implements OnInit{
   registroForm !: FormGroup;
   
   constructor(
+    private router: Router,
     private oikosService: OikosService,
     private oikosMidService: OikosMidService,
     private popUpManager: PopUpManager,
@@ -124,12 +126,13 @@ export class RegistroComponent implements OnInit{
   enviarDependencia(){
     this.popUpManager.showLoaderAlert(this.translate.instant('CARGA.REGISTRO'));
     const registro = this.construirObjetoRegistro();
-    console.log(registro)
     this.oikosMidService.post("gestion_dependencias_mid/RegistrarDependencia", registro).pipe(
       tap((res: any) => {
           if (res.Success) {
               Swal.close();
-              this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.REGISTRAR'));
+              this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.REGISTRAR'))
+              this.router.navigate(['/gestion']);
+              
           } else {
               Swal.close();
               this.popUpManager.showErrorAlert(this.translate.instant('ERROR.REGISTRAR'));
