@@ -13,7 +13,7 @@
                             <ng-template let-node pTemplate="person">
                                 <div class="contenedor-nodo">
                                     <div class="circulo-nodo" [style]="node.data.color_primario"><div class="circulo-interno-nodo" [style]="node.data.color_secundario"></div></div>
-                                    <div [ngClass]="node.styleClass"  [style]="node.data.borde">{{ node.data.nombre }}</div>
+                                    <div class="contenedor-texto"><p class="texto-nodo" [ngClass]="node.styleClass" [ngStyle]="{'font-size': node.data.fontSize}" [style]="node.data.borde">{{ node.data.nombre }}</p></div>
                                 </div>
                             </ng-template>
                         </p-organizationChart>
@@ -31,7 +31,7 @@
                             <ng-template let-node pTemplate="person">
                                 <div class="contenedor-nodo">
                                     <div class="circulo-nodo" [style]="node.data.color_primario"><div class="circulo-interno-nodo" [style]="node.data.color_secundario"></div></div>
-                                    <div [ngClass]="node.styleClass"  [style]="node.data.borde">{{ node.data.nombre }}</div>
+                                    <div class="contenedor-texto"><p class="texto-nodo" [ngClass]="node.styleClass" [ngStyle]="{'font-size': node.data.fontSize}" [style]="node.data.borde">{{ node.data.nombre }}</p></div>
                                 </div>
                             </ng-template>
                         </p-organizationChart>
@@ -49,7 +49,7 @@
                             <ng-template let-node pTemplate="person">
                                 <div class="contenedor-nodo">
                                     <div class="circulo-nodo" [style]="node.data.color_primario"><div class="circulo-interno-nodo" [style]="node.data.color_secundario"></div></div>
-                                    <div [ngClass]="node.styleClass"  [style]="node.data.borde">{{ node.data.nombre }}</div>
+                                    <div class="contenedor-texto"><p class="texto-nodo" [ngClass]="node.styleClass" [ngStyle]="{'font-size': node.data.fontSize}" [style]="node.data.borde">{{ node.data.nombre }}</p></div>
                                 </div>
                             </ng-template>
                         </p-organizationChart>

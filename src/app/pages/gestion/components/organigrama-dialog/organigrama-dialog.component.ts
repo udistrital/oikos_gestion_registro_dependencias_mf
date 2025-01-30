@@ -42,9 +42,9 @@ export class OrganigramaDialogComponent implements OnInit {
   ];
 
   dependencias: { [key: string]: Organigrama } = {};
-  general: TreeNode[][] = []; 
-  administrativo: TreeNode[][] = []; 
-  academico: TreeNode[][] = []; 
+  general: TreeNode[][] = [];
+  administrativo: TreeNode[][] = [];
+  academico: TreeNode[][] = [];
 
   constructor(
     public dialogRef: MatDialogRef<OrganigramaDialogComponent>,
@@ -93,23 +93,28 @@ export class OrganigramaDialogComponent implements OnInit {
         }
       }
       Swal.close();
-      
+
       this.popUpManager.showSuccessAlert(this.translate.instant('EXITO.BUSQUEDA'));
     }, (error) => {
       Swal.close();
       this.popUpManager.showErrorAlert(this.translate.instant('ERROR.ORGANIGRAMA'));
     });
-}
+  }
 
 
   crear_arbol(dependencia: Organigrama): TreeNode[] {
     const tipo_dependencia_asociado = this.getTipoDependencia(dependencia.Tipo ? dependencia.Tipo[0] : '');
+    const nombre = dependencia.Dependencia.Nombre;
+
+    const fontSize = this.calcularFontSize(nombre);
+
     const node: TreeNode = {
       expanded: true,
       type: "person",
       styleClass: "nodo",
       data: {
         nombre: dependencia.Dependencia.Nombre,
+        fontSize: `${fontSize}px`,
         ...tipo_dependencia_asociado
       },
       children: dependencia.Hijos ? this.crear_arbol_hijos(dependencia.Hijos) : []
@@ -119,7 +124,7 @@ export class OrganigramaDialogComponent implements OnInit {
 
   crear_arbol_hijos(hijos: Organigrama[]): TreeNode[] {
     return hijos.map(hijo => {
-      return this.crear_arbol(hijo)[0]; 
+      return this.crear_arbol(hijo)[0];
     });
   }
 
@@ -130,5 +135,15 @@ export class OrganigramaDialogComponent implements OnInit {
       }
     }
     return {};
+  }
+
+  calcularFontSize(nombre: string): number {
+    const length = nombre.length;
+  
+    // Define los rangos de longitud y los tamaños de fuente
+    if (length <= 60) return 12; // Tamaño normal
+    if (length <= 80) return 10; // Reducir ligeramente
+    if (length <= 100) return 9; // Reducir más
+    return 8; // Tamaño mínimo para textos largos
   }
 }
