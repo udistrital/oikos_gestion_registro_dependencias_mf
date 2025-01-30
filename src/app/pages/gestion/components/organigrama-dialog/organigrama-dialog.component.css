@@ -49,6 +49,8 @@
 
 .contenedor-nodo{
     display: flex;
+    border: 2px solid #007bff !important; /* Azul destacado */
+    border-radius: 15px !important; /* Bordes redondeados */
     padding: 5px;
 }
 
@@ -96,3 +98,23 @@ mat-card-content{
     overflow: auto;
 }
 
+.contenedor-texto {
+    display: flex;
+    justify-content: center;  /* Asegura que el texto esté centrado */
+    align-items: center;      /* Alinea el texto verticalmente si es necesario */
+    height: 100%;             /* Asegura que el contenedor ocupe toda la altura disponible */
+    max-height: 100%;         /* Limita la altura máxima del contenedor */
+    overflow: hidden;         /* Oculta cualquier contenido que se desborde */
+}
+
+.texto-nodo {
+    margin: 0;
+    padding: 5px;
+    text-align: center;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;  /* Muestra "..." si el texto es demasiado largo */
+    white-space: normal;      /* Permite que el texto se ajuste y no se corte */
+    word-wrap: break-word;    /* Asegura que las palabras largas se rompan correctamente */
+    max-height: 100%;         /* Asegura que el texto no se desborde verticalmente */
+}

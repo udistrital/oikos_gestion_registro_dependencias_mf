@@ -147,22 +147,20 @@ input, select{
     color: #70aeff; 
 }
 .p-organizationchart .p-organizationchart-line-down {
-    background: #dee2e6;
-    color: #495057;
+    background: #ffffff;
+    color: #2c2e30;
 }
 .p-organizationchart .p-organizationchart-line-left {
-    border-right: 1px solid #dee2e6;
-    border-color: #dee2e6;
+    border-right: 1px solid #ffffff;
+    border-color: #2c2e30;
 }
 .p-organizationchart .p-organizationchart-line-top {
-    border-top: 1px solid #dee2e6;
-    border-color: #dee2e6;
+    border-top: 1px solid #ffffff;
+    border-color: #2c2e30;
 }
 .p-organizationchart .p-organizationchart-node-content {
-    border: 1px solid #dee2e6;
     background: #ffffff;
     color: #495057;
-    padding: 1.25rem;
 }
 .p-organizationchart .p-organizationchart-node-content .p-node-toggler {
     background: inherit;
